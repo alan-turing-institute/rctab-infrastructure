@@ -54,3 +54,7 @@ repos:
         entry: poetry run pymarkdown --strict-config --config .pymarkdown.json scan
         language: system
         types: ['markdown']
+        exclude: |
+            (?x)^(
+                .github/*
+            )$
