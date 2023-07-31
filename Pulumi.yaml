@@ -1,0 +1,5 @@
+name: RCTab
+runtime:
+  name: python
+main: src/
+description: A Python management system for Azure

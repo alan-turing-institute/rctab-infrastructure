@@ -1,0 +1,55 @@
+---
+
+name: Pre-commit
+
+on:
+  pull_request:
+  # Run on merge to main because caches are inherited from parent branches
+  push:
+    branches:
+      - main
+
+jobs:
+  runner-job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Bootstrap poetry
+        shell: bash
+        run: |
+          python -m ensurepip
+          python -m pip install --upgrade pip
+          python -m pip install poetry
+
+      - name: Configure poetry
+        shell: bash
+        run: |
+          poetry config virtualenvs.in-project true
+
+      - name: Set up cache
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          poetry install
+
+      - name: Run pre-commit
+        shell: bash
+        run: |
+          PYRIGHT_PYTHON_GLOBAL_NODE=0
+          poetry run pre-commit run --all-files --show-diff-on-failure --color=always

@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "src"
+version = "0.1.0"
+description = "Azure deployment code"
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+pulumi-azure-native = "^2.1.1"
+pulumi = "^3.72.2"
+pulumi-random = "^4.13.1"
+pulumi-postgresql = "^3.8.0"
+pulumi-tls = "^4.10.0"
+
+[tool.poetry.group.dev.dependencies]
+pyright = "^1.1.315"
+isort = "^5.12.0"
+pylint = "^2.17.4"
+black = "^23.3.0"
+safety = "^2.3.5"
+pre-commit = "^3.3.3"
+pydocstyle = "^6.3.0"
+pymarkdownlnt = "^0.9.11"
+pylint-absolute-imports = "^1.0.1"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
