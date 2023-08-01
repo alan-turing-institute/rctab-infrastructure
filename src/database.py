@@ -29,8 +29,19 @@ def create_database_server(
     """
     Create a database server.
 
-    Creates an admin password and stores in a keyvault.
-    Adds a user as an active directory administrator.
+    Creates an admin password and stores in a keyvault and adds a user as an
+    active directory administrator.
+
+    Args:
+        name: The name of the database server.
+        admin_username: The username of the database server admin.
+        resource_group: The resource group to create the database server in.
+        vault: The keyvault to store the admin password in.
+        db_sku_name: The name of the database sku to use.
+        db_sku_tier: The tier of the database sku to use.
+
+    Returns:
+        A tuple containing the database server and the admin password.
     """
     context = authorization.get_client_config()
 
@@ -104,7 +115,17 @@ def create_database_user(
     database: dbforpostgresql.Database,
     admin_password: random.RandomPassword,
 ) -> random.RandomPassword:
-    """Create a user on the database specified and return their password."""
+    """
+    Create a user on the database specified and return their password.
+
+    Args:
+        database_server: The database server to create the user on.
+        database: The database to create the user on.
+        admin_password: The password of the database server admin.
+
+    Returns:
+        The password of the user created.
+    """
     admin_login = database_server.administrator_login.apply(raise_if_none)
     fully_qualified_domain_name = database_server.fully_qualified_domain_name.apply(
         raise_if_none

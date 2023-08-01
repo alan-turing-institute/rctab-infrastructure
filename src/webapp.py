@@ -49,7 +49,25 @@ def create_webapp(
     status_key: PrivateKey,
     controller_key: PrivateKey,
 ) -> web.WebApp:
-    """Create a webapp and add outbound ips to database whitelist."""
+    """
+    Create a webapp and add outbound ips to database whitelist.
+
+    Args:
+        resource_group: The resource group to create the webapp in.
+        vault: The keyvault to store the database credentials in.
+        app_plan_id: The app plan id to create the webapp in.
+        database_server: The database server to whitelist the webapp outbound ips.
+        database: The database to connect the webapp to.
+        database_user_password: The password for the database user.
+        app_insights_connection_string: The connection string for application insights.
+        logging_connection_string: The connection string for central logging.
+        usage_key: The private key for the usage function.
+        status_key: The private key for the status function.
+        controller_key: The private key for the controller function.
+
+    Returns:
+        The webapp.
+    """
     active_directory_args = [
         web.NameValuePairArgs(name="TENANT_ID", value=AD_TENANT_ID),
         web.NameValuePairArgs(name="CLIENT_ID", value=AD_API_CLIENT_ID),

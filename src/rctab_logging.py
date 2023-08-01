@@ -10,7 +10,16 @@ from constants import ADMIN_EMAIL_RECIPIENTS, IDENTIFIER
 
 
 def set_up_logging() -> Tuple[Output[str], Output[str], resources.ResourceGroup]:
-    """Set up the centralised logging resources for RCTab."""
+    """
+    Set up the centralised logging resources for RCTab.
+
+    Includes a workspace and an app insights instance, all housed in a single
+    resource group.
+
+    Returns:
+        The workspace id, the app insights connection string and the resource group.
+
+    """
     logging_resource_group = resources.ResourceGroup(
         f"rctab-central-logging-{IDENTIFIER}-",
         location="UK South",
@@ -39,7 +48,21 @@ def set_up_logging() -> Tuple[Output[str], Output[str], resources.ResourceGroup]
 
 
 def create_action_group(logging_resource_group_name: str) -> Output[str]:
-    """Create an administration action group."""
+    """
+    Create an administration action group.
+
+    Action group members are specified in the config variable ADMIN_EMAIL_RECIPIENTS.
+
+    Args:
+        logging_resource_group_name: The name of the logging resource group.
+
+    Example:
+        >>> create_action_group("rctab-central-logging-rg")
+
+    Returns:
+        The id of the action group.
+
+    """
     if ADMIN_EMAIL_RECIPIENTS:
         email_receivers: Output[
             Sequence[EmailReceiverArgs]
