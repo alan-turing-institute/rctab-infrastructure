@@ -39,7 +39,7 @@ def create_alert_rule(
     action_group_id: Output[str],
 ) -> None:
     """
-    Alert to email admin if more than 2 failures occur in a 5 minute period.
+    Alert the admin group if more than 2 failures occur in a 5-minute period.
 
     Args:
         first_letter: The first letter of the function app name.
