@@ -112,7 +112,7 @@ def create_function_app(
         app_hostname: The hostname of the app service plan to use.
         image_name: The name of the docker image to run.
         workspace_id: The id of the app insights instance to use.
-        logging_connection_string: The connection string for an application insights instance.
+        logging_connection_string: The connection string for application insights.
         app_settings: The app settings to use.
         storage_connection_string: The connection string for the storage account to use.
         identity_type: The type of identity to use.

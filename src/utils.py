@@ -205,6 +205,7 @@ def assert_valid_log_level(log_level: Optional[str]) -> Optional[str]:
     """
     Check the log level is a valid log level.
 
+    Log level is not case sensitive and is converted to uppercase before checking.
     See https://docs.python.org/3/library/logging.html#logging-levels.
 
     Args:
