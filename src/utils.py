@@ -37,7 +37,7 @@ def format_secret_list_str(input_str: Optional[Output[str]]) -> Optional[Output[
     Convert a comma-separated list into a JSON compatible list.
 
     Args:
-        input_str:A comma separated list of secrets such as 'abc, def, ghi'
+        input_str: A comma separated list such as 'abc, def, ghi', wrapped in an Output.
 
     Example:
         >>> format_secret_list_str(Ouput.secret("abc, def, ghi"))
