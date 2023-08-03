@@ -1,4 +1,5 @@
 """Configuration values for the RCTab deployment."""
+from os import environ
 from typing import Final, Optional
 
 from pulumi import Config, Output, get_stack
@@ -17,6 +18,19 @@ from utils import (
 )
 
 config = Config()
+
+# If sphynx autodoc is running the code, mock the calls to config require to
+# return some default value (otherwise the sphynx autodoc will fail)
+if environ.get("SPHYNX_AUTODOC_MODE", "false") == "true":
+    from unittest.mock import patch
+
+    patch("pulumi.Config.require", return_value="dummy").start()
+    patch("pulumi.Config.require_secret", return_value=Output.secret("")).start()
+
+    def assert_is_file(filepath: str) -> str:  # pylint: disable=E0102
+        """Mock version of assert_is_file."""
+        return filepath
+
 
 # Hardcoded config
 SESSION_TIMEOUT_MINUTES: Final[str] = "90"
