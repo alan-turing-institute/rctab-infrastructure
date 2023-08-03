@@ -1,7 +1,6 @@
 """Configuration values for the RCTab deployment."""
 from os import environ
 from typing import Final, Optional
-from unittest.mock import patch
 
 from pulumi import Config, Output, get_stack
 from pulumi_azure_native.web import NameValuePairArgs
