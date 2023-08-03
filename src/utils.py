@@ -131,7 +131,7 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
     https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules
 
     Args:
-        ticker: The name of the ticker.
+        ticker: The ticker.
         stack: The name of the stack.
 
     Example:
