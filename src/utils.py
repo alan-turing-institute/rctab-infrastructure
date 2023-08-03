@@ -18,9 +18,6 @@ def format_list_str(input_str: Optional[str]) -> Optional[str]:
     Args:
         input_str: A comma separated list such as 'abc, def, ghi'
 
-    Example:
-        >>> format_list_str("abc, def, ghi")
-
     Returns:
         A JSON compatible list string such as '["abc", "def", "ghi"]'
     """
@@ -38,9 +35,6 @@ def format_secret_list_str(input_str: Optional[Output[str]]) -> Optional[Output[
 
     Args:
         input_str: A comma separated list such as 'abc, def, ghi', wrapped in an Output.
-
-    Example:
-        >>> format_secret_list_str(Ouput.secret("abc, def, ghi"))
 
     Returns:
         A JSON compatible secret list string such as '["abc", "def", "ghi"]'
@@ -62,9 +56,6 @@ def raise_if_none(value: Optional[T]) -> T:
     Args:
         value: The value to check.
 
-    Example:
-        >>> raise_if_none("not None")
-
     Raises:
         ValueError: If value is None.
 
@@ -83,9 +74,6 @@ def assert_is_file(filepath: str) -> str:
     Args:
         filepath: The path to check.
 
-    Example:
-        >>> assert_is_file("src/webapp.py")
-
     Raises:
         AssertionError: If filepath is not a valid path to a real file.
 
@@ -102,10 +90,6 @@ def assert_str_true_or_false(checkstr: Optional[str]) -> Optional[str]:
 
     Args:
         checkstr: The string to check.
-
-    Example:
-        >>> assert_str_true_or_false("true")
-        >>> assert_str_true_or_false("false")
 
     Raises:
         AssertionError: If checkstr is not 'true' or 'false'.
@@ -133,9 +117,6 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
     Args:
         ticker: The ticker.
         stack: The name of the stack.
-
-    Example:
-        >>> validate_ticker_stack_combination("abc", "def")
 
     Raises:
         AssertionError: If ticker is not between 2 and 5 characters long or if
@@ -166,10 +147,6 @@ def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
     Args:
         kwargs: A dictionary of keyword arguments including billing or mgmt.
 
-    Example:
-        >>> raise_billing_or_mgmt({"billing": "00000000-0000-0000-0000-000000000000"})
-        >>> raise_billing_or_mgmt({"mgmt": "00000000-0000-0000-0000-000000000000"})
-
     Raises:
         ValueError: If both billing and mgmt are set or neither are set.
 
@@ -192,9 +169,6 @@ def is_valid_uuid(check_uuid: str) -> bool:
     Args:
         check_uuid: The uuid to check.
 
-    Example:
-        >>> is_valid_uuid("00000000-0000-0000-0000-000000000000")
-
     Returns:
         True if check_uuid is a valid uuid. False otherwise.
     """
@@ -211,12 +185,6 @@ def assert_valid_uuid_list(whitelist: Optional[str]) -> Optional[str]:
 
     Args:
         whitelist: A comma separated list of uuid's.
-
-    Example:
-        >>> assert_valid_uuid_list(
-            "00000000-0000-0000-0000-000000000000,
-            00000000-0000-0000-0000-0000000000001"
-        )
 
     Raises:
         AssertionError: If any of the uuid's in the list are not valid uuid's.
@@ -241,9 +209,6 @@ def assert_valid_log_level(log_level: Optional[str]) -> Optional[str]:
 
     Args:
         log_level: The log level to check.
-
-    Example:
-        >>> assert_valid_log_level("INFO")
 
     Raises:
         AssertionError: If the log level is not a valid log level.
@@ -273,9 +238,6 @@ def check_valid_ip_address(ip2check: str):
 
     Args:
         ip2check: The IP address to check.
-
-    Example:
-        >>> check_valid_ip_address("192.168.123.132")
 
     Returns:
         The IP address if it is a valid IP address.

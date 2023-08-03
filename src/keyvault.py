@@ -11,9 +11,6 @@ def create_vault(name: str, resource_group: resources.ResourceGroup) -> keyvault
         name: The name of the keyvault.
         resource_group: The resource group to create the keyvault in.
 
-    Example:
-        >>> create_vault("rctab-keyvault", resource_group)
-
     Returns:
         The keyvault.
     """

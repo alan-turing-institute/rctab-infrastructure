@@ -56,9 +56,6 @@ def create_action_group(logging_resource_group_name: str) -> Output[str]:
     Args:
         logging_resource_group_name: The name of the logging resource group.
 
-    Example:
-        >>> create_action_group("rctab-central-logging-rg")
-
     Returns:
         The id of the action group.
 
