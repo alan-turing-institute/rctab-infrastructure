@@ -59,7 +59,7 @@ class SyncTestCase(unittest.TestCase):
             validate_ticker_stack_combination("a", "ticker")
 
         with self.assertRaises(
-            AssertionError, msg="Ticker cannot be more than 5 characters"
+            AssertionError, msg="Ticker cannot be more than 6 characters"
         ):
             validate_ticker_stack_combination("ticker", "stack")
 
