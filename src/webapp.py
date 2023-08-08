@@ -27,7 +27,6 @@ from constants import (
     SENDGRID_SENDER_EMAIL,
     SESSION_TIMEOUT_MINUTES,
     STACK_NAME,
-    TICKER,
     WHITELIST,
 )
 from utils import raise_if_none
@@ -85,7 +84,6 @@ def create_webapp(
             value=app_insights_connection_string,
         ),
         web.NameValuePairArgs(name="ORGANISATION", value=ORGANISATION),
-        web.NameValuePairArgs(name="TICKER", value=TICKER),
         web.NameValuePairArgs(name="STACK", value=STACK_NAME),
     ]
 
