@@ -45,7 +45,7 @@ TICKER: Final[str] = config.require("ticker")
 IDENTIFIER: Final[str] = validate_ticker_stack_combination(TICKER, STACK_NAME)
 
 # Default image tag for latest major version
-RCTAB_TAG: Final[str] = config.get("rctab_tag") or "0.latest"
+RCTAB_TAG: Final[str] = config.get("rctab_tag") or "1.latest"
 
 # Optional CI setting
 AUTO_DEPLOY: Final[str] = assert_str_true_or_false(config.get("auto_deploy")) or "true"

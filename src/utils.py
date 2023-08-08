@@ -98,7 +98,7 @@ def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
     billing = kwargs["billing"]
     mgmt = kwargs["mgmt"]
     if (billing and mgmt) or (not billing and not mgmt):
-        raise ValueError("Either billing_account_id or mgmt_group must be set")
+        raise ValueError("Either billing_account_id or usage_mgmt_group must be set")
     if billing:
         return NameValuePairArgs(name="BILLING_ACCOUNT_ID", value=billing)
     return NameValuePairArgs(name="MGMT_GROUP", value=mgmt)
