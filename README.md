@@ -151,6 +151,7 @@ pulumi config set --secret ad_api_client_id 00000000-0000-0000-0000-000000000001
 pulumi config set --secret ad_api_client_secret "123xyz!@£"
 pulumi config set --secret ad_status_client_id 00000000-0000-0000-0000-000000000002
 pulumi config set --secret ad_status_client_secret "456fjk$%^"
+pulumi config set --secret usage_mgmt_group "my-management-group"
 ```
 
 ### Optional Config Variables
@@ -254,7 +255,7 @@ pulumi config set docker_api_image "myorg/my-api-image"
 pulumi config set docker_usage_image "myorg/my-usage-image"
 pulumi config set docker_status_image "myorg/my-status-image"
 pulumi config set docker_controller_image "myorg/my-controller-image"
-pulumi config set rctab_tab "2.3"
+pulumi config set rctab_tag "2.3"
 ```
 
 To save time with debugging and redeployment, it is advisable to should check that the images and tag work with the Docker CLI before running `pulumi up`.

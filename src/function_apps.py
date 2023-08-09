@@ -239,7 +239,7 @@ def set_up_function_apps(
     )
 
     account = storage.StorageAccount(
-        "storage" + "".join(char for char in IDENTIFIER if char.isalpha()).lower(),
+        "store" + "".join(char for char in IDENTIFIER if char.isalpha()).lower(),
         storage.StorageAccountArgs(
             resource_group_name=resource_group.name,
             location=resource_group.location,

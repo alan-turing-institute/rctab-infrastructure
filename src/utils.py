@@ -109,9 +109,9 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
     """
     Raise an error if ticker and stack names are not valid names.
 
-    The length of the ticker must be between 2 and 5 characters. The stack name can
-    be any length but combined the two must not be larger than 14 characters long
-    due to resource naming limits. See
+    The length of the ticker must be between 2 and 6 characters. The stack name can
+    be any length but combined the two must not be larger than 10 characters long
+    due to resource naming limits:
     https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules
 
     Args:
@@ -130,7 +130,7 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
     org_stack = f"{proposed_identifier}-abcdefgh"
     # check ticker and stack name together is valid
     assert len(ticker) > 1, "Ticker cannot be less than 2 characters"
-    assert len(ticker) < 6, "Ticker cannot be more than 5 characters"
+    assert len(ticker) < 7, "Ticker cannot be more than 6 characters"
     assert re.match(valid_identifier_pattern, org_stack), (
         f"The organisation and stack name must match the pattern "
         f"'{valid_identifier_pattern}'. ",
@@ -156,7 +156,7 @@ def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
     billing = kwargs["billing"]
     mgmt = kwargs["mgmt"]
     if (billing and mgmt) or (not billing and not mgmt):
-        raise ValueError("Either billing_account_id or mgmt_group must be set")
+        raise ValueError("Either billing_account_id or usage_mgmt_group must be set")
     if billing:
         return NameValuePairArgs(name="BILLING_ACCOUNT_ID", value=billing)
     return NameValuePairArgs(name="MGMT_GROUP", value=mgmt)
