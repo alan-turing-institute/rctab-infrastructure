@@ -1,42 +1,60 @@
 """Configuration values for the RCTab deployment.
 
 This module contains the configuration values for the RCTab deployment.
-REQUIRED values must be set using `pulumi config set ...`. Optional values can be set
-using `pulumi config set ...` or can be ignored, in which case they will be given 
-a default value.
+REQUIRED values must be set using `pulumi config set ...`. Optional values can be
+set using `pulumi config set ...` or can be ignored, in which case they will be
+given a default value.
 
 Attributes:
-    SESSION_TIMEOUT_MINUTES (str): The number of minutes before a user session times out. Defaults to 90.
+    SESSION_TIMEOUT_MINUTES (str): The number of minutes before a user session
+        times out. Defaults to 90.
     DATABASE_NAME (str): The name of the database to create. Defaults to RCTab.
     APP_MODULE (str): The name of the module to run. Defaults to rctab:app.
     STACK_NAME (str): The name of the pulumi stack.
-    RCTAB_APP_USER (str): The name of the user to create for the RCTab app. Defaults to rctab-api-user.
+    RCTAB_APP_USER (str): The name of the user to create for the RCTab app.
+        Defaults to rctab-api-user.
     ORGANISATION (str): The name of the organisation. REQUIRED.
     TICKER (str): The ticker of the organisation. REQUIRED.
-    IDENTIFIER (str): The identifier of the organisation. This is the combination of the ticker and stack name.
+    IDENTIFIER (str): The identifier of the organisation. This is the combination
+        of the ticker and stack name.
     RCTAB_TAG (str): The tag of the RCTab docker image to use. Defaults to 1.latest.
     AUTO_DEPLOY (str): Whether to automatically deploy the app. Defaults to true.
-    DOCKER_REGISTRY_SERVER_URL (str): The URL of the docker registry server. Defaults to https://index.docker.io/v1.
-    DOCKER_REGISTRY_SERVER_USERNAME (str): The username for docker. Defaults to an empty string. 
-    DOCKER_REGISTRY_SERVER_PASSWORD (str): The password for docker. Defaults to an empty string.
-    DOCKER_API_IMAGE (str): The name of the docker image for the API. Defaults to turingrc/rctab-api:1.latest.
-    DOCKER_USAGE_IMAGE (str): The name of the docker image for the usage app. Defaults to turingrc/rctab-usage:1.latest.
-    DOCKER_STATUS_IMAGE (str): The name of the docker image for the status app. Defaults to turingrc/rctab-status:1.latest.
-    DOCKER_CONTROLLER_IMAGE (str): The name of the docker image for the controller app. Defaults to turingrc/rctab-controller:1.latest.
+    DOCKER_REGISTRY_SERVER_URL (str): The URL of the docker registry server.
+        Defaults to https://index.docker.io/v1.
+    DOCKER_REGISTRY_SERVER_USERNAME (str): The username for docker.
+        Defaults to an empty string.
+    DOCKER_REGISTRY_SERVER_PASSWORD (str): The password for docker.
+        Defaults to an empty string.
+    DOCKER_API_IMAGE (str): The name of the docker image for the API.
+        Defaults to turingrc/rctab-api:1.latest.
+    DOCKER_USAGE_IMAGE (str): The name of the docker image for the usage app.
+        Defaults to turingrc/rctab-usage:1.latest.
+    DOCKER_STATUS_IMAGE (str): The name of the docker image for the status app.
+        Defaults to turingrc/rctab-status:1.latest.
+    DOCKER_CONTROLLER_IMAGE (str): The name of the docker image for the
+        controller app. Defaults to turingrc/rctab-controller:1.latest.
     PRIMARY_IP (str): The primary IP address of the organisation. REQUIRED.
-    DB_ROOT_CERT_PATH (str): The path to the root certificate for the database. REQUIRED.
-    AD_SERVER_ADMIN (str): The name of the admin user for the AD server. REQUIRED.
+    DB_ROOT_CERT_PATH (str): The path to the root certificate for the database.
+        REQUIRED.
+    AD_SERVER_ADMIN (str): The name of the admin user for the AD server.
+        REQUIRED.
     AD_TENANT_ID (str): The tenant ID for the AD server. REQUIRED.
-    AD_API_CLIENT_ID (str): The client ID for the API app in the AD server. REQUIRED.
-    AD_API_CLIENT_SECRET (str): The client secret for the API app in the AD server. REQUIRED.
-    AD_STATUS_CLIENT_ID (str): The client ID for the status app in the AD server. REQUIRED.
-    AD_STATUS_CLIENT_SECRET (str): The client secret for the status app in the AD server. REQUIRED.
+    AD_API_CLIENT_ID (str): The client ID for the API app in the AD server.
+        REQUIRED.
+    AD_API_CLIENT_SECRET (str): The client secret for the API app in the AD server.
+        REQUIRED.
+    AD_STATUS_CLIENT_ID (str): The client ID for the status app in the AD server.
+        REQUIRED.
+    AD_STATUS_CLIENT_SECRET (str): The client secret for the status app in the
+        AD server. REQUIRED.
     SENDGRID_API_KEY (str): The API key for SendGrid. REQUIRED.
     SENDGRID_SENDER_EMAIL (str): The sender email for SendGrid. REQUIRED.
     NOTIFIABLE_ROLES (str): The roles to notify. Defaults to an empty string.
     ROLES_FILTER (str): The roles to filter. Defaults to an empty string.
-    ADMIN_EMAIL_RECIPIENTS (str): The email recipients for admin emails. Defaults to an empty string.
-    IGNORE_WHITELIST (str): Whether to ignore the whitelist. Defaults to an empty string.
+    ADMIN_EMAIL_RECIPIENTS (str): The email recipients for admin emails.
+        Defaults to an empty string.
+    IGNORE_WHITELIST (str): Whether to ignore the whitelist. Defaults to an
+        empty string.
     WHITELIST (str): The whitelist. Defaults to an empty string.
     LOG_LEVEL (str): The log level. Defaults to an empty string.
     BILLING_ACCOUNT_ID (str): The billing account ID. REQUIRED.
