@@ -219,10 +219,10 @@ def set_up_function_apps(
     Set up the function app resources for RCTab.
 
     Args:
-        workspace_id: The id of the app insights instance to use.
-        logging_connection_string: The connection string for the storage account to use.
+        workspace_id: The id of the log analytics workspace to use.
+        logging_connection_string: The connection string for the centralised logging.
         app_plan_id: The id of the app service plan to use.
-        app_hostname: The hostname of the app service plan to use.
+        app_hostname: The hostname of the web app.
         usage_key: The private key to use for the usage function app.
         status_key: The private key to use for the status function app.
         controller_key: The private key to use for the controller function app.

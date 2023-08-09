@@ -17,7 +17,8 @@ def set_up_logging() -> Tuple[Output[str], Output[str], resources.ResourceGroup]
     resource group.
 
     Returns:
-        The workspace id, the app insights connection string and the resource group.
+        The id of the log analytics workspace to use, the centralised logging
+        connection string and the resource group.
 
     """
     logging_resource_group = resources.ResourceGroup(
