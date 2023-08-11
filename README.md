@@ -6,10 +6,10 @@
 2. Install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) and login with `az login`.
 3. Set the desired subscription with `az account set --subscription <'subscription-name-or-id'>`.
 4. Create a service principal
-4. Install [Pulumi](https://www.pulumi.com/), set up an account and login
-5. Set the required config variables
-6. Run `pulumi up`.
-7. Configure Azure settings
+5. Install [Pulumi](https://www.pulumi.com/), set up an account and login
+6. Set the required config variables
+7. Run `pulumi up`.
+8. Configure Azure settings
 
 ## Pre-pulumi Azure steps
 
@@ -383,7 +383,7 @@ Once `pulumi up` has ran without errors, all the resources required to run RCTab
 
 You will nee to give the usage app's [managed identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) the [Billing Reader Role](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/manage-billing-access#give-read-only-access-to-billing) over the management group you set as the [config variable](#management-group).
 
-#### Azure portal
+In the Azure portal:
 
 1. Navigate to the [Azure portal](https://portal.azure.com/#home) and select the management group you selected as the [config variable](#management-group).
 2. Select the `Access control (IAM)` blade.
@@ -391,7 +391,7 @@ You will nee to give the usage app's [managed identity](https://learn.microsoft.
 4. Select `Billing Reader` from the `Role` dropdown.
 5. Select the usage app's managed identity from the `Assign access to` dropdown.
 
-#### Azure CLI
+Using the Azure CLI:
 
 ```shell
 az role assignment create --assignee-object-id <usage-app-managed-identity-object-id> --role "Billing Reader" --scope <management-group-id>
@@ -403,8 +403,7 @@ Just like the usage app, the controller app needs to be assigned a management gr
 
 To function properly, the controller function must be given a role assignment of Owner, or some custom role with permissions that allow it to turn off subscriptions within its scope.
 
-
-#### Azure portal
+In the Azure portal:
 
 1. Navigate to the [Azure portal](https://portal.azure.com/#home) and select the management group you want the controller function to operate on.
 2. Select the `Access control (IAM)` blade.
@@ -412,7 +411,7 @@ To function properly, the controller function must be given a role assignment of
 4. Select `Owner` from the `Role` dropdown.
 5. Select the usage app's managed identity from the `Assign access to` dropdown.
 
-#### Azure CLI
+Using the Azure CLI:
 
 ```shell
 az role assignment create --assignee-object-id <usage-app-managed-identity-object-id> --role "Owner" --scope <management-group-id>
