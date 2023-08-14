@@ -12,8 +12,7 @@ T = TypeVar("T")
 
 
 def format_list_str(input_str: Optional[str]) -> Optional[str]:
-    """
-    Convert a comma-separated list of strings into a JSON compatible list.
+    """Convert a comma-separated list of strings into a JSON compatible list.
 
     Args:
         input_str: A comma separated list such as 'abc, def, ghi'
@@ -30,8 +29,7 @@ def format_list_str(input_str: Optional[str]) -> Optional[str]:
 
 
 def format_secret_list_str(input_str: Optional[Output[str]]) -> Optional[Output[str]]:
-    """
-    Convert a comma-separated list into a JSON compatible list.
+    """Convert a comma-separated list into a JSON compatible list.
 
     Args:
         input_str: A comma separated list such as 'abc, def, ghi', wrapped in an Output.
@@ -50,8 +48,7 @@ def format_secret_list_str(input_str: Optional[Output[str]]) -> Optional[Output[
 
 
 def raise_if_none(value: Optional[T]) -> T:
-    """
-    Raise an exception if value is None.
+    """Raise an exception if value is None.
 
     Args:
         value: The value to check.
@@ -68,8 +65,7 @@ def raise_if_none(value: Optional[T]) -> T:
 
 
 def assert_is_file(filepath: str) -> str:
-    """
-    Raise an error if filepath is not a valid path to a real file.
+    """Raise an error if filepath is not a valid path to a real file.
 
     Args:
         filepath: The path to check.
@@ -85,8 +81,7 @@ def assert_is_file(filepath: str) -> str:
 
 
 def assert_str_true_or_false(checkstr: Optional[str]) -> Optional[str]:
-    """
-    Raise an error if checkstr is not 'true' or 'false'.
+    """Raise an error if checkstr is not 'true' or 'false'.
 
     Args:
         checkstr: The string to check.
@@ -106,8 +101,7 @@ def assert_str_true_or_false(checkstr: Optional[str]) -> Optional[str]:
 
 
 def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
-    """
-    Raise an error if ticker and stack names are not valid names.
+    """Raise an error if ticker and stack names are not valid names.
 
     The length of the ticker must be between 2 and 6 characters. The stack name can
     be any length but combined the two must not be larger than 10 characters long
@@ -141,8 +135,7 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
 
 
 def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
-    """
-    Raise if both billing and mngmt are set or neither are set.
+    """Raise if both billing and mngmt are set or neither are set.
 
     Args:
         kwargs: A dictionary of keyword arguments including billing or mgmt.
@@ -163,8 +156,7 @@ def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
 
 
 def is_valid_uuid(check_uuid: str) -> bool:
-    """
-    Check a provided uuid is a valid uuid.
+    """Check a provided uuid is a valid uuid.
 
     Args:
         check_uuid: The uuid to check.
@@ -180,8 +172,7 @@ def is_valid_uuid(check_uuid: str) -> bool:
 
 
 def assert_valid_uuid_list(whitelist: Optional[str]) -> Optional[str]:
-    """
-    Check the uuid list provided is a list of valid uuid's or an empty string.
+    """Check the uuid list provided is a list of valid uuid's or an empty string.
 
     Args:
         whitelist: A comma separated list of uuid's.
@@ -202,8 +193,7 @@ def assert_valid_uuid_list(whitelist: Optional[str]) -> Optional[str]:
 
 
 def assert_valid_log_level(log_level: Optional[str]) -> Optional[str]:
-    """
-    Check the log level is a valid log level.
+    """Check the log level is a valid log level.
 
     Log level is not case sensitive and is converted to uppercase before checking.
     See https://docs.python.org/3/library/logging.html#logging-levels.
@@ -234,8 +224,7 @@ def assert_valid_log_level(log_level: Optional[str]) -> Optional[str]:
 
 
 def check_valid_ip_address(ip2check: str):
-    """
-    Check an IP address is a valid IP address.
+    """Check an IP address is a valid IP address.
 
     Args:
         ip2check: The IP address to check.

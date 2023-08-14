@@ -38,8 +38,7 @@ def create_alert_rule(
     resource_group: ResourceGroup,
     action_group_id: Output[str],
 ) -> None:
-    """
-    Alert the admin group if more than 2 failures occur in a 5-minute period.
+    """Alert the admin group if more than 2 failures occur in a 5-minute period.
 
     Args:
         first_letter: The first letter of the function app name.
@@ -103,8 +102,7 @@ def create_function_app(
     identity_type: web.ManagedServiceIdentityType,
     action_group_id: Output[str],
 ):
-    """
-    Create a function app to run the docker image given by image_name.
+    """Create a function app to run the docker image given by image_name.
 
     Args:
         resource_group: The resource group to create the function app in.
@@ -215,8 +213,7 @@ def set_up_function_apps(
     controller_key: PrivateKey,
     action_group_id: Output[str],
 ) -> None:
-    """
-    Set up the function app resources for RCTab.
+    """Set up the function app resources for RCTab.
 
     Args:
         workspace_id: The id of the log analytics workspace to use.

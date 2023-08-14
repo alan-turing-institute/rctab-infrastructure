@@ -48,8 +48,7 @@ def create_webapp(
     status_key: PrivateKey,
     controller_key: PrivateKey,
 ) -> web.WebApp:
-    """
-    Create a webapp and add outbound ips to database whitelist.
+    """Create a webapp and add outbound ips to database whitelist.
 
     Args:
         resource_group: The resource group to create the webapp in.

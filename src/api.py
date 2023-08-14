@@ -26,8 +26,7 @@ def create_availability_alert_rule(
     resource_group: resources.ResourceGroup,
     action_group_id: Output[str],
 ) -> None:
-    """
-    Alert to email admin if API availability drops bellow 100%.
+    """Alert to email admin if API availability drops bellow 100%.
 
     Args:
         insights_id: The id of the application insights resource.
@@ -84,8 +83,7 @@ def set_up_api(
     controller_key: PrivateKey,
     action_group_id: Output[str],
 ) -> Tuple[Output[str], Output[str]]:
-    """
-    Create resources for the RCTab API.
+    """Create resources for the RCTab API.
 
     Args:
         workspace_id: The id of the application insights workspace.

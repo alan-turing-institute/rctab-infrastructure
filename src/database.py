@@ -26,8 +26,7 @@ def create_database_server(
     db_sku_name: str,
     db_sku_tier: str,
 ) -> Tuple[dbforpostgresql.Server, random.RandomPassword]:
-    """
-    Create a database server.
+    """Create a database server.
 
     Creates an admin password and stores in a keyvault and adds a user as an
     active directory administrator.
@@ -115,8 +114,7 @@ def create_database_user(
     database: dbforpostgresql.Database,
     admin_password: random.RandomPassword,
 ) -> random.RandomPassword:
-    """
-    Create a user on the database specified and return their password.
+    """Create a user on the database specified and return their password.
 
     Args:
         database_server: The database server to create the user on.

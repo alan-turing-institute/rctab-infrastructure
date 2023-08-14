@@ -4,8 +4,7 @@ from pulumi_azure_native.keyvault import SkuName
 
 
 def create_vault(name: str, resource_group: resources.ResourceGroup) -> keyvault.Vault:
-    """
-    Create a keyvault in a resource group.
+    """Create a keyvault in a resource group.
 
     Args:
         name: The name of the keyvault.
