@@ -1,6 +1,9 @@
 # Ignore any stack settings
 Pulumi.*.yaml
 
+# The Root DB Certificate
+DigiCertGlobalRootCA.crt.pem
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
