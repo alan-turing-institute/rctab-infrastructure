@@ -32,12 +32,12 @@ def create_database_server(
     active directory administrator.
 
     Args:
-        name: The name of the database server.
-        admin_username: The username of the database server admin.
+        name: The name to give the database server.
+        admin_username: The username to give the database server admin.
         resource_group: The resource group to create the database server in.
         vault: The keyvault to store the admin password in.
-        db_sku_name: The name of the database sku to use.
-        db_sku_tier: The tier of the database sku to use.
+        db_sku_name: The name of the database SKU to use.
+        db_sku_tier: The tier of the database SKU to use.
 
     Returns:
         A tuple containing the database server and the admin password.

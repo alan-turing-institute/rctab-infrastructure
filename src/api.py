@@ -26,15 +26,12 @@ def create_availability_alert_rule(
     resource_group: resources.ResourceGroup,
     action_group_id: Output[str],
 ) -> None:
-    """Alert to email admin if API availability drops bellow 100%.
+    """Alert the action group if API availability drops bellow 100%.
 
     Args:
         insights_id: The id of the application insights resource.
         resource_group: The resource group to create the alert in.
-        action_group_id: The id of the action group to email.
-
-    Returns:
-        None
+        action_group_id: The id of the action group to notify.
     """
     MetricAlert(
         "API-availability-alert",
@@ -87,11 +84,11 @@ def set_up_api(
 
     Args:
         workspace_id: The id of the application insights workspace.
-        logging_connection_string: The connection string for the logging database.
-        usage_key: The private key for the usage database.
-        status_key: The private key for the status database.
-        controller_key: The private key for the controller database.
-        action_group_id: The id of the action group to email.
+        logging_connection_string: The connection string for the application insights.
+        usage_key: The private key for the usage function app.
+        status_key: The private key for the status function app.
+        controller_key: The private key for the controller function app.
+        action_group_id: The id of the action group to notify.
 
     Returns:
         A tuple containing the app plan id and the url of the webapp.

@@ -18,7 +18,7 @@ def format_list_str(input_str: Optional[str]) -> Optional[str]:
         input_str: A comma separated list such as 'abc, def, ghi'
 
     Returns:
-        A JSON compatible list string such as '["abc", "def", "ghi"]'
+        A JSON compatible list string such as '["abc", "def", "ghi"]'.
     """
     if input_str:
         formatted_str = ", ".join(
@@ -35,7 +35,7 @@ def format_secret_list_str(input_str: Optional[Output[str]]) -> Optional[Output[
         input_str: A comma separated list such as 'abc, def, ghi', wrapped in an Output.
 
     Returns:
-        A JSON compatible secret list string such as '["abc", "def", "ghi"]'
+        A JSON compatible secret list string such as '["abc", "def", "ghi"]'.
     """
     if input_str:
         formatted_str = input_str.apply(
@@ -113,7 +113,7 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
         stack: The name of the stack.
 
     Raises:
-        AssertionError: If ticker is not between 2 and 5 characters long or if
+        AssertionError: If ticker is not between 2 and 6 characters long or if
         the name does not meet the naming requirements.
 
     Returns:
@@ -138,7 +138,7 @@ def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
     """Raise if both billing and mngmt are set or neither are set.
 
     Args:
-        kwargs: A dictionary of keyword arguments including billing or mgmt.
+        kwargs: A dictionary that should have a key of "billing" or of "mgmt".
 
     Raises:
         ValueError: If both billing and mgmt are set or neither are set.
@@ -156,13 +156,13 @@ def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
 
 
 def is_valid_uuid(check_uuid: str) -> bool:
-    """Check a provided uuid is a valid uuid.
+    """Check a provided UUID is a valid UUID.
 
     Args:
-        check_uuid: The uuid to check.
+        check_uuid: The UUID to check.
 
     Returns:
-        True if check_uuid is a valid uuid. False otherwise.
+        True if check_uuid is a valid UUID. False otherwise.
     """
     try:
         uuid.UUID(check_uuid)
@@ -172,16 +172,16 @@ def is_valid_uuid(check_uuid: str) -> bool:
 
 
 def assert_valid_uuid_list(whitelist: Optional[str]) -> Optional[str]:
-    """Check the uuid list provided is a list of valid uuid's or an empty string.
+    """Check the UUID list provided is a list of valid UUIDs or an empty string.
 
     Args:
-        whitelist: A comma separated list of uuid's.
+        whitelist: A comma separated list of UUIDs.
 
     Raises:
-        AssertionError: If any of the uuid's in the list are not valid uuid's.
+        AssertionError: If any of the UUIDs in the list are not valid UUIDs.
 
     Returns:
-        The whitelist if it is a list of valid uuid's or an empty string.
+        The whitelist if it is a list of valid UUIDs or an empty string.
     """
     if whitelist:
         uuids = whitelist.split(",")

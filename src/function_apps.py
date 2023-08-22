@@ -44,10 +44,10 @@ def create_alert_rule(
         first_letter: The first letter of the function app name.
         insights_id: The id of the app insights instance.
         resource_group: The resource group to create the alert in.
-        action_group_id: The id of the action group to email.
+        action_group_id: The id of the action group to notify.
 
     Returns:
-        None
+        None.
     """
     MetricAlert(
         f"{first_letter}-function-failure-alert",
@@ -108,16 +108,16 @@ def create_function_app(
         resource_group: The resource group to create the function app in.
         app_plan_id: The id of the app service plan to use.
         app_hostname: The hostname of the app service plan to use.
-        image_name: The name of the docker image to run.
+        image_name: The name of the Docker image to run.
         workspace_id: The id of the app insights instance to use.
         logging_connection_string: The connection string for application insights.
         app_settings: The app settings to use.
         storage_connection_string: The connection string for the storage account to use.
         identity_type: The type of identity to use.
-        action_group_id: The id of the action group to email.
+        action_group_id: The id of the action group to notify.
 
     Returns:
-        None
+        None.
     """
     # presume that the image name is something like
     # hub.docker.io/myorg/rctab-usage:latest
@@ -223,10 +223,10 @@ def set_up_function_apps(
         usage_key: The private key to use for the usage function app.
         status_key: The private key to use for the status function app.
         controller_key: The private key to use for the controller function app.
-        action_group_id: The id of the action group to email.
+        action_group_id: The id of the action group to notify.
 
     Returns:
-        None
+        None.
     """
     resource_group = resources.ResourceGroup(
         f"rctab-mngmnt-functions-{IDENTIFIER}-",

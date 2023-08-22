@@ -48,11 +48,11 @@ def create_webapp(
     status_key: PrivateKey,
     controller_key: PrivateKey,
 ) -> web.WebApp:
-    """Create a webapp and add outbound ips to database whitelist.
+    """Create a webapp and add outbound IPs to database whitelist.
 
     Args:
         resource_group: The resource group to create the webapp in.
-        vault: The keyvault to store the database credentials in.
+        vault: The keyvault to store the session cookie secret in.
         app_plan_id: The app plan id to create the webapp in.
         database_server: The database server to whitelist the webapp outbound ips.
         database: The database to connect the webapp to.
@@ -132,7 +132,6 @@ def create_webapp(
         if item[1]
     ]
 
-    # Create admin Credentials and place in keyvault
     session_cookie_secret = random.RandomPassword(
         "session_cookie_secret",
         random.RandomPasswordArgs(
