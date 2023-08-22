@@ -48,6 +48,10 @@ jobs:
         run: |
           poetry install
 
+      - name: Check poetry.lock consistency
+        shell: bash
+        run: poetry check --lock
+
       - name: Run pre-commit
         shell: bash
         run: |
