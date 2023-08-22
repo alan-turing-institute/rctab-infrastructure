@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "src"
+name = "rctab_infrastructure"
 version = "0.1.0"
 description = "Azure deployment code"
 authors = []

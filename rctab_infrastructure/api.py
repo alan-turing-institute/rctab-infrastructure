@@ -13,10 +13,10 @@ from pulumi_azure_native.insights import (
 from pulumi_azure_native.insights.v20200202 import Component, ComponentArgs
 from pulumi_tls import PrivateKey
 
-from constants import DATABASE_NAME, IDENTIFIER, PRIMARY_IP
-from database import create_database_server, create_database_user
-from keyvault import create_vault
-from webapp import create_webapp
+from rctab_infrastructure.constants import DATABASE_NAME, IDENTIFIER, PRIMARY_IP
+from rctab_infrastructure.database import create_database_server, create_database_user
+from rctab_infrastructure.keyvault import create_vault
+from rctab_infrastructure.webapp import create_webapp
 
 # pylint: disable=too-many-arguments
 

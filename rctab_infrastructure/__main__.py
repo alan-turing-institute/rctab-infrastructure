@@ -1,9 +1,9 @@
 """Pulumi script for creating a Function App (and dependencies) on Azure."""
 from pulumi_tls import PrivateKey, PrivateKeyArgs
 
-from api import set_up_api
-from function_apps import set_up_function_apps
-from rctab_logging import create_action_group, set_up_logging
+from rctab_infrastructure.api import set_up_api
+from rctab_infrastructure.function_apps import set_up_function_apps
+from rctab_infrastructure.rctab_logging import create_action_group, set_up_logging
 
 # Create central logging and workspace
 workspace_id, logging_connection_string, logging_resouce_group = set_up_logging()
