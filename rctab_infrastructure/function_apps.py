@@ -14,7 +14,7 @@ from pulumi_azure_native.insights.v20200202 import Component, ComponentArgs
 from pulumi_azure_native.resources import ResourceGroup
 from pulumi_tls import PrivateKey
 
-from constants import (
+from rctab_infrastructure.constants import (
     AD_STATUS_CLIENT_ID,
     AD_STATUS_CLIENT_SECRET,
     AD_TENANT_ID,
