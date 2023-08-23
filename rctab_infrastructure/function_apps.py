@@ -38,7 +38,17 @@ def create_alert_rule(
     resource_group: ResourceGroup,
     action_group_id: Output[str],
 ) -> None:
-    """Alert to email admin if more than 2 failures occur in a 5 minute period."""
+    """Alert the admin group if more than 2 failures occur in a 5-minute period.
+
+    Args:
+        first_letter: The first letter of the function app name.
+        insights_id: The id of the app insights instance.
+        resource_group: The resource group to create the alert in.
+        action_group_id: The id of the action group to notify.
+
+    Returns:
+        None.
+    """
     MetricAlert(
         f"{first_letter}-function-failure-alert",
         actions=[
@@ -92,7 +102,23 @@ def create_function_app(
     identity_type: web.ManagedServiceIdentityType,
     action_group_id: Output[str],
 ):
-    """Create a function app to run image_name."""
+    """Create a function app to run the docker image given by image_name.
+
+    Args:
+        resource_group: The resource group to create the function app in.
+        app_plan_id: The id of the app service plan to use.
+        app_hostname: The hostname of the app service plan to use.
+        image_name: The name of the Docker image to run.
+        workspace_id: The id of the app insights instance to use.
+        logging_connection_string: The connection string for application insights.
+        app_settings: The app settings to use.
+        storage_connection_string: The connection string for the storage account to use.
+        identity_type: The type of identity to use.
+        action_group_id: The id of the action group to notify.
+
+    Returns:
+        None.
+    """
     # presume that the image name is something like
     # hub.docker.io/myorg/rctab-usage:latest
     # but could be as short as "rctab-usage" and,
@@ -187,7 +213,21 @@ def set_up_function_apps(
     controller_key: PrivateKey,
     action_group_id: Output[str],
 ) -> None:
-    """Set up the function app resources for RCTab."""
+    """Set up the function app resources for RCTab.
+
+    Args:
+        workspace_id: The id of the log analytics workspace to use.
+        logging_connection_string: The connection string for the centralised logging.
+        app_plan_id: The id of the app service plan to use.
+        app_hostname: The hostname of the web app.
+        usage_key: The private key to use for the usage function app.
+        status_key: The private key to use for the status function app.
+        controller_key: The private key to use for the controller function app.
+        action_group_id: The id of the action group to notify.
+
+    Returns:
+        None.
+    """
     resource_group = resources.ResourceGroup(
         f"rctab-mngmnt-functions-{IDENTIFIER}-",
         resources.ResourceGroupArgs(

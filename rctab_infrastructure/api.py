@@ -26,7 +26,13 @@ def create_availability_alert_rule(
     resource_group: resources.ResourceGroup,
     action_group_id: Output[str],
 ) -> None:
-    """Alert to email admin if API availability drops bellow 100%."""
+    """Alert the action group if API availability drops bellow 100%.
+
+    Args:
+        insights_id: The id of the application insights resource.
+        resource_group: The resource group to create the alert in.
+        action_group_id: The id of the action group to notify.
+    """
     MetricAlert(
         "API-availability-alert",
         actions=[
@@ -74,7 +80,19 @@ def set_up_api(
     controller_key: PrivateKey,
     action_group_id: Output[str],
 ) -> Tuple[Output[str], Output[str]]:
-    """Create resources for the RCTab API."""
+    """Create resources for the RCTab API.
+
+    Args:
+        workspace_id: The id of the application insights workspace.
+        logging_connection_string: The connection string for the application insights.
+        usage_key: The private key for the usage function app.
+        status_key: The private key for the status function app.
+        controller_key: The private key for the controller function app.
+        action_group_id: The id of the action group to notify.
+
+    Returns:
+        A tuple containing the app plan id and the url of the webapp.
+    """
     api_resource_group = resources.ResourceGroup(
         f"rctab-{IDENTIFIER}-",
         resources.ResourceGroupArgs(location="UK South"),
