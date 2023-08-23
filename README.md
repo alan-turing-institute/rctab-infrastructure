@@ -5,66 +5,18 @@
 1. Clone this repository and install the Python package with either `pip install .` or `poetry install`.
 2. Install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) and login with `az login`.
 3. Set the desired subscription with `az account set --subscription <'subscription-name-or-id'>`.
-4. Create a service principal
-5. Install [Pulumi](https://www.pulumi.com/), set up an account and login
-6. Set the required config variables
+4. Create a service principal for the Status function to use. See the Status function [README](https://github.com/alan-turing-institute/rctab-functions/tree/main/status_function#creating-a-service-principal-with-graph-permissions).
+5. Install [Pulumi](https://www.pulumi.com/), set up an account and login.
+6. Set the [Configuration Variables](#configuration-variables).
 7. Run `pulumi up`.
-8. Configure Azure settings
+8. Configure Azure settings.
 
-## Pre-pulumi Azure steps
+## Configuration Variables
 
-Before building the infrastructure with pulumi, you will first need to do some configuration steps on Azure to ensure everything works as expected.
-
-### Create service principal
-
-The status function needs to be able to query the Active Directory Graph to retrieve the names and email addresses of [service principals](https://learn.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-10.2.0#create-a-service-principal) ( users, groups and managed identities) in a subscription's *Role Based Access Control* (RBAC) list. We therefore need to make a service principal with the required permissions. These outputs will be used as pulumi config variables later.
-
-A service principal can be created using the Azure CLI.
-
-```shell
-# Create a new service principal
-$ az ad sp create-for-rbac --role Reader --scope /subscriptions/00000000-0000-0000-0000-000000000001
-{
-  "appId": "00000000-0000-0000-0000-000000000002",  # take note of this for later
-  "displayName": "azure-2001-01-01-07-00-00",
-  "password": "xxx",  # take note of this for later
-  "tenant": "00000000-0000-0000-0000-000000000003"  # take note of this for later
-}
-
-# Query its objectId
-$ az ad sp show --id 00000000-0000-0000-0000-000000000002 --query objectId --output tsv
-00000000-0000-0000-0000-000000000004
-
-# Get the API ID of AD Graph Directory.Read.All and objectId of AD Graph
-$ az ad sp show --id 00000002-0000-0000-c000-000000000000
-{
-  "appDisplayName": "Windows Azure Active Directory",
-  "appId": "00000002-0000-0000-c000-000000000000",
-    {
-      "allowedMemberTypes": [
-        "Application"
-      ],
-      "description": "Allows the app to read data in your company or school directory, such as users, groups, and apps.",
-      "displayName": "Read directory data",
-      "id": "00000000-0000-0000-0000-000000000005",
-      "isEnabled": true,
-      "value": "Directory.Read.All"
-    },
-    ...
-  "objectId": "00000000-0000-0000-0000-000000000006",
-  ...
-
-# Add permission to the service principal
-$ az ad app permission add --api 00000002-0000-0000-c000-000000000000 --api-permissions 00000000-0000-0000-0000-000000000005=Role --id 00000000-0000-0000-0000-000000000002
-
-# Grant admin consent
-# DO NOT use the old `az ad app permission admin-consent` API
-$ az rest --method POST --uri https://graph.microsoft.com/v1.0/servicePrincipals/00000000-0000-0000-0000-000000000006/appRoleAssignedTo --body '{"principalId": "00000000-0000-0000-0000-000000000004", "resourceId": "00000000-0000-0000-0000-000000000006", "appRoleId": "00000000-0000-0000-0000-000000000005"}'
-```
-
-## Deploying with Pulumi
-
-The resources required for RCTab are built by running `pulumi up` in the root directory of this repository. Before you can run this, however, you are required to set a number of config variables. These variables allow Azure to run the application and configure your instance of RCTab. Some of these are stored as environment variables in the functions' and webapp's [configuration](https://learn.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal).
+The resources required for RCTab are built by running `pulumi up` in the root directory of this repository.
+Before you can run this, however, you are required to set a number of config variables.
+These variables allow Azure to run the application and configure your instance of RCTab.
+Some of these are stored as environment variables in the functions' and webapp's [configuration](https://learn.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal).
 
 **Note**, whilst it is possible to edit these configurations directly on Azure, if a future update is made to the RCTab infrastructure and you run `pulumi up` again, these config variables will be **overwritten** or **deleted** from Azure and reset to the value specified in the pulumi config.
 
@@ -79,6 +31,11 @@ pulumi stack init <stack-name>
 The stack name isn't actually a configuration variable (it is the name of the [Pulumi stack](https://www.pulumi.com/docs/concepts/stack/)) but is used to form some of the resource names for RCTab.
 This imposes some restrictions on what you can call your stack.
 You will be notified, when you run `pulumi up` or `pulumi preview`, if your stack name is too long or otherwise invalid.
+
+> **Warning**
+Do not change the stack name or org ticker after deployment.
+The stack name and org ticker are used to form the name of the database server.
+If you change the stack name (e.g. with `pulumi stack rename`) after deployment, Pulumi will drop and recreate the database server but will not know to recreate the database user, leaving you with a broken deployment.
 
 #### Location
 
@@ -109,7 +66,13 @@ This is used in the globally unique resource names on Azure to ensure your resou
 The inspiration for the ticker is the [stock ticker](https://www.investopedia.com/terms/s/stocksymbol.asp).
 
 The ticker is combined with the stack name to provide globally unique resource names associated with a particular stack (_e.g._ prod, dev, main, _etc._).
-One example is the domain of the api, which takes the form `rctab-{ticker}-{stack}.azurewebsites.net`. The total length of these two constants must not be larger than 10 characters.
+One example is the domain of the api, which takes the form `rctab-{ticker}-{stack}.azurewebsites.net`.
+The total length of these two constants must not be larger than 10 characters.
+
+> **Warning**
+Do not change the stack name or org ticker after deployment.
+The stack name and org ticker are used to form the name of the database server.
+If you change either after deployment, Pulumi will drop and recreate the database server but will not know to recreate the database user, leaving you with a broken deployment.
 
 #### Primary IP
 
@@ -156,7 +119,7 @@ Checkout [this guide](https://learn.microsoft.com/en-us/azure/active-directory/f
 The client ID and client secret are credentials used by applications on Azure to authenticate and access resources protected by Azure AD, using Azure Active Directory and [OAuth 2.0 authentication](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow).
 It allows a service to use its own credentials to gain access, rather than share a users credentials.
 
-RCTab requires that the API and status function are able to identify themselves in this way.
+RCTab requires that the API and Status function are able to identify themselves in this way.
 
 #### API
 
@@ -169,20 +132,20 @@ pulumi config set --secret ad_api_client_secret <ad-api-client-secret>
 
 #### Status Function
 
-Ensure you have first followed the status function [service principal setup instructions](https://github.com/alan-turing-institute/rctab-functions/tree/main/status_function#setup-1).
+Ensure you have first followed the Status function [service principal setup instructions](https://github.com/alan-turing-institute/rctab-functions/tree/main/status_function#setup-1).
 
 ```shell
 pulumi config set --secret ad_status_client_id <ad-status-client-id>
 pulumi config set --secret ad_status_client_secret <ad-status-client-secret>
 ```
 
-#### Management Group
+#### Usage Management Group
 
 ```shell
 pulumi config set usage_mgmt_group <mgmt-group-id>
 ```
 
-The ID of the management group that the usage function app will collect data for.
+The ID of the management group that the Usage function app will collect data for.
 The Usage function app should have enough permissions over this management group to be able to collect billing data.
 
 ### Example Minimal Configuration
@@ -294,7 +257,7 @@ Upgrading to the latest version will then require the infrastructure code to be 
 
 #### Custom Docker Images
 
-To deploy RCTab from your own images you will need to set the Docker registry URL, your Docker registry username and PAT as config secrets.
+To deploy RCTab from your own images you will need to set the Docker registry URL, your Docker registry username and a PAT as config secrets.
 
 If you want to deviate from our image naming scheme, you will also need to set the image name variables and the tag.
 
@@ -310,6 +273,13 @@ pulumi config set rctab_tag "2.3"
 ```
 
 To save time with debugging and redeployment, it is advisable to should check that the images and tag work with the Docker CLI before running `pulumi up`.
+
+By default, the API and Functions will create web hooks that you can use to receive notifications whenever there are changes to your images.
+Azure calls this setting, [Continuous Deployment](https://learn.microsoft.com/en-us/azure/app-service/deploy-ci-cd-custom-container?tabs=acr&pivots=container-linux#4-enable-cicd).
+If you wish, you can disable it `pulumi config set auto_deploy false`.
+
+> **Note**
+If you are using our images, your app and functions will not receive web hook triggers whenever we push a new version and will only update to the latest version of an image when restarted.
 
 ##### DockerHub
 
@@ -371,54 +341,45 @@ Note that if you select a tag that doesn't exist, the infrastructure will still 
 This setting will pin all the versions to the same value but will be overwritten by specific image settings such as `docker_api_image`, `docker_usage_image`, _etc._, which ignore the tag setting.
 Consequently, it is possible, if not advisable, to set different versions for each component (API and each function).
 
-By default, the API and Functions will set up web hooks to pull the latest versions of images and restart whenever the image changes.
-Azure calls this setting, [Continuous Deployment](https://learn.microsoft.com/en-us/azure/app-service/deploy-ci-cd-custom-container?tabs=acr&pivots=container-linux#4-enable-cicd).
-If you wish, you can disable it `pulumi config set auto_deploy false`.
+## Post Pulumi Deployment
 
-## Post pulumi set up
+Once `pulumi up` has ran without errors, all the resources required to run RCTab will have been created on Azure.
+You can see them in portal.azure by navigating to the subscription previously chosen with `az account set`.
+The function apps and API will automatically pull their images from DockerHub and start running.
+However, there are some additional settings you need to configure to get RCTab working fully.
 
-Once `pulumi up` has ran without errors, all the resources required to run RCTab will be created on Azure. You can see them by Navigating to the subscription used in step 3 in the [Azure portal](https://portal.azure.com/#home). The function apps and API will automatically pull their images from DockerHub and start running. However, there are some additional settings you need to configure to get RCTab working fully.
+### Give the Usage App a Role on Azure
 
-### Give the usage app the Billing Reader Role
+You will need to give the Usage app's [managed identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) the [Billing Reader Role](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/manage-billing-access#give-read-only-access-to-billing) over the management group you set as the [config variable](#usage-management-group).
 
-You will nee to give the usage app's [managed identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) the [Billing Reader Role](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/manage-billing-access#give-read-only-access-to-billing) over the management group you set as the [config variable](#management-group).
+#### In the Azure Portal
 
-In the Azure portal:
-
-1. Navigate to the [Azure portal](https://portal.azure.com/#home) and select the management group you selected as the [config variable](#management-group).
+1. Navigate to the [Azure portal](https://portal.azure.com/#home) and select the management group you selected as the [config variable](#usage-management-group).
 2. Select the `Access control (IAM)` blade.
 3. Select `Add` and then `Add role assignment`.
 4. Select `Billing Reader` from the `Role` dropdown.
-5. Select the usage app's managed identity from the `Assign access to` dropdown.
+5. Select the Usage app's managed identity from the `Assign access to` dropdown.
 
-Using the Azure CLI:
-
-```shell
-az role assignment create --assignee-object-id <usage-app-managed-identity-object-id> --role "Billing Reader" --scope <management-group-id>
-```
-
-### Assign a management group to the controller app
-
-Just like the usage app, the controller app needs to be assigned a management group to work on. It will then be able to turn off subscriptions within that management group. This can be the same management group as the usage app or a child group of it. This is useful if you want to monitor spending on subscriptions but only automatically turn off some subscriptions.
-
-To function properly, the controller function must be given a role assignment of Owner, or some custom role with permissions that allow it to turn off subscriptions within its scope.
-
-In the Azure portal:
-
-1. Navigate to the [Azure portal](https://portal.azure.com/#home) and select the management group you want the controller function to operate on.
-2. Select the `Access control (IAM)` blade.
-3. Select `Add` and then `Add role assignment`.
-4. Select `Owner` from the `Role` dropdown.
-5. Select the usage app's managed identity from the `Assign access to` dropdown.
-
-Using the Azure CLI:
+#### Using the Azure CLI
 
 ```shell
-az role assignment create --assignee-object-id <usage-app-managed-identity-object-id> --role "Owner" --scope <management-group-id>
+az role assignment create --assignee-object-id <usage-app-managed-identity-object-id> --role "insert-role-name-here" --scope <management-group-id>
 ```
 
-### Register RCTab with Azure Active Directory (AAD)
+### Give the Controller App a Role on Azure
 
-RCTab uses Azure Active Directory (AAD) to authenticate users. To do this, you will need to register RCTab with AAD. This will allow you to set up a redirect URL for the webapp and get the client ID and client secret needed to authenticate with AAD. See the steps [here](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#register-an-application) for resgistering an app with AAD.
+The Controller app needs a role assignment on Azure to be able to turn on or turn off subscriptions.
 
-For the web app URL to be usable, you will need to [add it as a redirect URI](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#add-a-redirect-uri).
+You can either use the `Owner` role or a custom role with `Microsoft.Authorization/*` and `Microsoft.Subscription/*` permissions.
+
+You can either assign the role to subscriptions individually or to a management group.
+This can be the same management group as the usage app or a child group of it, which
+is useful if you want to monitor spending on subscriptions but only automatically turn off some subscriptions.
+
+See above for instructions on role assignment via the Portal or CLI.
+
+### Add the Web App's URL to the App Registration
+
+Now that you know your RCTab web app's URL, you should add a redirect to the app registration you created for the [API](#api).
+
+Your redirect URI will be something like `https://rctab-ticker-stack.azurewebsites.net/getAToken`. See [add a redirect URI](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#add-a-redirect-uri).
