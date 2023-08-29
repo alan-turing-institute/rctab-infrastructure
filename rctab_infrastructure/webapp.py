@@ -26,7 +26,6 @@ from rctab_infrastructure.constants import (
     SENDGRID_API_KEY,
     SENDGRID_SENDER_EMAIL,
     SESSION_TIMEOUT_MINUTES,
-    STACK_NAME,
     WHITELIST,
 )
 from rctab_infrastructure.utils import raise_if_none
@@ -101,7 +100,6 @@ def create_webapp(
             value=app_insights_connection_string,
         ),
         web.NameValuePairArgs(name="ORGANISATION", value=ORGANISATION),
-        web.NameValuePairArgs(name="STACK", value=STACK_NAME),
     ]
 
     fully_qualified_domain_name = database_server.fully_qualified_domain_name.apply(
