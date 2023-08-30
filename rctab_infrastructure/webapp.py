@@ -5,7 +5,7 @@ from pulumi import Output, ResourceOptions
 from pulumi_azure_native import keyvault, resources, web
 from pulumi_tls import PrivateKey
 
-from constants import (
+from rctab_infrastructure.constants import (
     AD_API_CLIENT_ID,
     AD_API_CLIENT_SECRET,
     AD_TENANT_ID,
@@ -28,7 +28,7 @@ from constants import (
     SESSION_TIMEOUT_MINUTES,
     WHITELIST,
 )
-from utils import raise_if_none
+from rctab_infrastructure.utils import raise_if_none
 
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals

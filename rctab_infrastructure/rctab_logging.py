@@ -10,7 +10,7 @@ from pulumi_azure_native.insights import (
 )
 from pulumi_azure_native.insights.v20200202 import Component
 
-from constants import ADMIN_EMAIL_RECIPIENTS, IDENTIFIER
+from rctab_infrastructure.constants import ADMIN_EMAIL_RECIPIENTS, IDENTIFIER
 
 
 def set_up_logging() -> Tuple[Output[str], Output[str], resources.ResourceGroup]:

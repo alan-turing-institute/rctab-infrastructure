@@ -5,7 +5,7 @@ import pulumi
 from pulumi import Output
 from pulumi_azure_native.web import NameValuePairArgs
 
-from src.utils import (
+from rctab_infrastructure.utils import (
     assert_is_file,
     assert_str_true_or_false,
     assert_valid_log_level,
