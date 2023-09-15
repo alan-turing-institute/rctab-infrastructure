@@ -96,7 +96,7 @@ def assert_str_true_or_false(checkstr: Optional[str]) -> Optional[str]:
         assert checkstr in (
             "true",
             "false",
-        ), "Invalid value for auto_deploy. Allowed values are 'true' or 'false'."
+        ), f"{checkstr} is an invalid value. Allowed values are 'true' or 'false'."
     return checkstr
 
 
@@ -127,9 +127,7 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
     assert len(ticker) < 7, "Ticker cannot be more than 6 characters"
     assert re.match(valid_identifier_pattern, org_stack), (
         f"The organisation and stack name must match the pattern "
-        f"'{valid_identifier_pattern}'. ",
-        "Please ensure the combined stack and organisation names "
-        "are less than 24 characters long.",
+        f"'{valid_identifier_pattern}' but is '{org_stack}'.",
     )
     return proposed_identifier
 
@@ -148,8 +146,16 @@ def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
     """
     billing = kwargs["billing"]
     mgmt = kwargs["mgmt"]
-    if (billing and mgmt) or (not billing and not mgmt):
-        raise ValueError("Either billing_account_id or usage_mgmt_group must be set")
+    if billing and mgmt:
+        raise ValueError(
+            "Only one of billing_account_id or usage_mgmt_group "
+            "should be set but both are."
+        )
+    if (not billing) and (not mgmt):
+        raise ValueError(
+            "One of billing_account_id or usage_mgmt_group "
+            "should be set but neither is."
+        )
     if billing:
         return NameValuePairArgs(name="BILLING_ACCOUNT_ID", value=billing)
     return NameValuePairArgs(name="MGMT_GROUP", value=mgmt)
