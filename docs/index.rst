@@ -5,6 +5,7 @@ Welcome to rctab-infrastructure's documentation!
    :maxdepth: 2
    :caption: Contents
    :glob:
+   :hidden:
 
    sometext
 
