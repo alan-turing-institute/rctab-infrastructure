@@ -3,7 +3,7 @@ Welcome to rctab-infrastructure's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
    :glob:
 
    sometext
@@ -12,6 +12,7 @@ Welcome to rctab-infrastructure's documentation!
 .. autosummary::
    :toctree: _autosummary
    :recursive:
+   :caption: Docstrings
 
    rctab_infrastructure
 
