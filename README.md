@@ -1,5 +1,7 @@
 # Building RCTab Infrastructure on Azure
 
+[![Documentation Status](https://readthedocs.org/projects/rctab-infrastructure/badge/?version=latest)](https://rctab-infrastructure.readthedocs.io/en/latest/?badge=latest)
+
 ## Quick start steps
 
 1. Clone this repository and install the Python package with either `pip install .` or `poetry install`.
