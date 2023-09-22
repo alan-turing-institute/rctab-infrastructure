@@ -89,3 +89,7 @@ def setup(app):
 # -- Options for autosummary extension
 
 autosummary_generate = True
+
+# -- Options for MyST
+
+myst_heading_anchors = 4

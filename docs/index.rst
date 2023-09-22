@@ -1,5 +1,21 @@
-Welcome to rctab-infrastructure's documentation!
-================================================
+Welcome to the RCTab Infrastructure documentation!
+==================================================
+
+This is the infrastructure/deployment part of the RCTab.
+If you need them, you can find the full RCTab docs [here](https://rctab.readthedocs.io/).
+
+RCTab can be deployed manually (e.g. via the Azure CLI or portal.azure.com).
+However, automated deployment is more convenient, secure and repeatable.
+Automated deployment is done with `Pulumi <https://www.pulumi.com/>`_, an Infrastructure as Code tool.
+Instructions can be found in :doc:`Deployment <content/deployment>`.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: External Links
+   :glob:
+   :hidden:
+
+   RCTab docs home <https://rctab.readthedocs.io/en/latest/>
 
 .. toctree::
    :maxdepth: 2
@@ -7,8 +23,8 @@ Welcome to rctab-infrastructure's documentation!
    :glob:
    :hidden:
 
-   sometext
-
+   Home <self>
+   content/*
 
 .. autosummary::
    :toctree: _autosummary
@@ -16,6 +32,7 @@ Welcome to rctab-infrastructure's documentation!
    :caption: Docstrings
 
    rctab_infrastructure
+
 
 Indices and tables
 ==================
