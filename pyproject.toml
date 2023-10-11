@@ -28,7 +28,7 @@ pymarkdownlnt = "^0.9.11"
 pylint-absolute-imports = "^1.0.1"
 
 [tool.poetry.extras]
-docs = ["sphinx-rtd-theme", "sphinxcontrib-napoleon", "myst-parser", "sphinx-subprojecttoctree"]
+docs = ["sphinx-rtd-theme", "sphinxcontrib-napoleon", "myst-parser", "sphinx"]
 
 [tool.isort]
 profile = "black"
