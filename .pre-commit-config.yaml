@@ -37,12 +37,14 @@ repos:
         language: system
         types:
           - python
+        exclude: 'docs/.*'
       - id: pyright
         name: pyright
         entry: poetry run pyright
         language: system
         types:
           - python
+        exclude: 'docs/.*'
       - id: pydocstyle
         name: pydocstyle
         entry: poetry run pydocstyle --convention=google

@@ -8,32 +8,32 @@ versions of the Python variable names.
 
 Attributes:
     SESSION_TIMEOUT_MINUTES (str): The number of minutes before a user session
-        times out. Defaults to 90.
-    DATABASE_NAME (str): The name of the database to create. Defaults to RCTab.
-    APP_MODULE (str): The name of the FastAPI app. Defaults to rctab:app.
+        times out. Defaults to "90".
+    DATABASE_NAME (str): The name of the database to create. Defaults to "RCTab".
+    APP_MODULE (str): The name of the FastAPI app. Defaults to "rctab:app".
     STACK_NAME (str): The name of the pulumi stack. Set automatically.
     RCTAB_APP_USER (str): The name of the user to create for the RCTab app.
-        Defaults to rctab-api-user.
+        Defaults to "rctab-api-user".
     ORGANISATION (str): Your organisation's name. REQUIRED.
     TICKER (str): A short form of your organisation's name. REQUIRED.
     IDENTIFIER (str): The identifier of the organisation. This is the combination
         of the ticker and stack name. Set automatically.
-    RCTAB_TAG (str): The tag of the RCTab Docker image to use. Defaults to 1.latest.
-    AUTO_DEPLOY (str): Whether to automatically pull new images. Defaults to true.
+    RCTAB_TAG (str): The tag of the RCTab Docker image to use. Defaults to "1.latest".
+    AUTO_DEPLOY (str): Whether to automatically pull new images. Defaults to "true".
     DOCKER_REGISTRY_SERVER_URL (str): The URL of the Docker registry server.
-        Defaults to https://index.docker.io/v1.
+        Defaults to "https://index.docker.io/v1".
     DOCKER_REGISTRY_SERVER_USERNAME (str): The username for the Docker registry.
         Defaults to an empty string.
     DOCKER_REGISTRY_SERVER_PASSWORD (str): The password for Docker registry.
         Defaults to an empty string.
     DOCKER_API_IMAGE (str): The name of the Docker image for the API.
-        Defaults to turingrc/rctab-api:1.latest.
+        Defaults to "turingrc/rctab-api:1.latest".
     DOCKER_USAGE_IMAGE (str): The name of the Docker image for the usage app.
-        Defaults to turingrc/rctab-usage:1.latest.
+        Defaults to "turingrc/rctab-usage:1.latest".
     DOCKER_STATUS_IMAGE (str): The name of the Docker image for the status app.
-        Defaults to turingrc/rctab-status:1.latest.
+        Defaults to "turingrc/rctab-status:1.latest".
     DOCKER_CONTROLLER_IMAGE (str): The name of the Docker image for the
-        controller app. Defaults to turingrc/rctab-controller:1.latest.
+        controller app. Defaults to "turingrc/rctab-controller:1.latest".
     PRIMARY_IP (str): Your organisation's static IP address. REQUIRED.
     DB_ROOT_CERT_PATH (str): The path to the root certificate for the database.
         REQUIRED.
@@ -61,7 +61,6 @@ Attributes:
     BILLING_ACCOUNT_ID (str): The billing account ID. REQUIRED.
     MGMT_GROUP (str): The management group. REQUIRED.
 """
-from os import environ
 from typing import Final, Optional
 
 from pulumi import Config, Output, get_stack
@@ -80,19 +79,6 @@ from rctab_infrastructure.utils import (
 )
 
 config = Config()
-
-# If sphynx autodoc is running the code, mock the calls to config require to
-# return some default value (otherwise the sphynx autodoc will fail)
-if environ.get("SPHYNX_AUTODOC_MODE", "false") == "true":
-    from unittest.mock import patch
-
-    patch("pulumi.Config.require", return_value="dummy").start()
-    patch("pulumi.Config.require_secret", return_value=Output.secret("")).start()
-
-    def assert_is_file(filepath: str) -> str:  # pylint: disable=E0102
-        """Mock version of assert_is_file."""
-        return filepath
-
 
 # Hardcoded config
 SESSION_TIMEOUT_MINUTES: Final[str] = "90"
