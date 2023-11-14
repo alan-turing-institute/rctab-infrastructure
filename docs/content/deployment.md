@@ -4,7 +4,7 @@
 
 1. Clone this repository and install the Python package with either `pip install .` or `poetry install`.
 2. Install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) and login with `az login`.
-3. Set the desired subscription with `az account set --subscription <'subscription-name-or-id'>`.
+3. Set the desired subscription with `az account set --subscription '<subscription-name-or-id>'`.
 4. Create a service principal for the Status function to use.
    See the Status function [docs](https://rctab-functions.readthedocs.io/en/latest/content/status.html#creating-a-service-principal-with-graph-permissions).
 5. Install [Pulumi](https://www.pulumi.com/), set up an account and login.
