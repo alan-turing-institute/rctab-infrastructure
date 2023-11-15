@@ -3,6 +3,7 @@ import pulumi_azure_native.dbforpostgresql.v20230301preview as dbforpostgresql
 import pulumi_random as random
 from pulumi import Output, ResourceOptions
 from pulumi_azure_native import keyvault, resources, web
+from pulumi_azure_native.web import DefaultAction, IpSecurityRestrictionArgs
 from pulumi_tls import PrivateKey
 
 from rctab_infrastructure.constants import (
@@ -198,6 +199,14 @@ def create_webapp(
                 app_settings=app_settings,
                 always_on=True,
                 linux_fx_version=f"DOCKER|{DOCKER_API_IMAGE}",
+                ip_security_restrictions_default_action=DefaultAction.DENY,
+                ip_security_restrictions=(
+                    IpSecurityRestrictionArgs(
+                        action=DefaultAction.ALLOW,
+                        ip_address="*",
+                        name="AllowHTTPS",
+                    ),
+                ),
             ),
             https_only=True,
         ),
