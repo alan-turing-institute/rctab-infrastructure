@@ -6,7 +6,7 @@
 2. Install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) and login with `az login`.
 3. Set the desired subscription with `az account set --subscription <'subscription-name-or-id'>`.
 4. Create a service principal for the Status function to use.
-   See the Status function [README](https://github.com/alan-turing-institute/rctab-functions/tree/main/status_function#creating-a-service-principal-with-graph-permissions).
+   See the Status function [docs](https://rctab-functions.readthedocs.io/en/latest/content/status.html#creating-a-service-principal-with-graph-permissions).
 5. Install [Pulumi](https://www.pulumi.com/), set up an account and login.
 6. Set the [Configuration Variables](#configuration-variables).
 7. Run `pulumi up`.
@@ -21,7 +21,7 @@ Some of these are stored as environment variables in the functions' and webapp's
 
 If you are testing/developing RCTab, it may be sufficient to use the [Example Minimal Configuration](#example-minimal-configuration) below.
 
-**Note**, whilst it is possible to edit these configurations directly on Azure, if a future update is made to the RCTab infrastructure and you run `pulumi up` again, these config variables will be **overwritten** or **deleted** from Azure and reset to the value specified in the pulumi config.
+**Note**, whilst it is possible to edit these configurations directly on Azure, if a future update is made to the RCTab infrastructure, and you run `pulumi up` again, these config variables will be **overwritten** or **deleted** from Azure and reset to the value specified in the Pulumi config.
 
 ### Required Configuration Variables
 
@@ -128,7 +128,7 @@ RCTab requires that the API and Status function are able to identify themselves 
 
 #### API
 
-You will need to follow the API instructions for [application registration](https://github.com/alan-turing-institute/rctab-api#application-registration).
+You will need to follow the API instructions for [application registration](https://rctab-api.readthedocs.io/en/latest/content/setup.html#application-registration).
 
 ```shell
 pulumi config set --secret ad_api_client_id <ad-api-client-id>
@@ -137,7 +137,7 @@ pulumi config set --secret ad_api_client_secret <ad-api-client-secret>
 
 #### Status Function
 
-Ensure you have first followed the Status function [service principal setup instructions](https://github.com/alan-turing-institute/rctab-functions/tree/main/status_function#setup-1).
+Ensure you have first followed the Status function [service principal setup instructions](https://rctab-functions.readthedocs.io/en/latest/content/status.html#creating-a-service-principal-with-graph-permissions).
 
 ```shell
 pulumi config set --secret ad_status_client_id <ad-status-client-id>
@@ -227,7 +227,7 @@ Alternatively, you can ignore the whitelist all together to manage everything (l
 
 #### SendGrid Variables
 
-RCTab uses [SendGrid](https://docs.sendgrid.com/for-developers/partners/microsoft-azure-2021) to send emails (.e.g usage alerts and daily summaries).
+RCTab uses [SendGrid](https://docs.sendgrid.com/for-developers/partners/microsoft-azure-2021) to send emails (e.g. status changes, usage alerts and daily summaries).
 You will need to set up a SendGrid account and configure an API key that will be set as an environment variable.
 You will also need to specify a SendGrid sender email address for the email notifications to be sent from.
 
