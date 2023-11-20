@@ -155,7 +155,9 @@ The Usage function app should have enough permissions over this management group
 
 ### Example Minimal Configuration
 
-An example minimal configuration might look something like this:
+An example minimal configuration is provided below.
+It should pass any local validity checks but is not intended to be used for production.
+You will need to replace the IP address with your own and provide a valid path to the certificate file.
 
 ```shell
 pulumi stack init 'dev'
