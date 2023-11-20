@@ -1,15 +1,16 @@
 # Deployment
 
-## Quick start steps
+## Quick Start Steps
 
 1. Clone this repository and install the Python package with either `pip install .` or `poetry install`.
 2. Install the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) and login with `az login`.
 3. Set the desired subscription with `az account set --subscription <'subscription-name-or-id'>`.
-4. Create a service principal for the Status function to use. See the Status function [README](https://github.com/alan-turing-institute/rctab-functions/tree/main/status_function#creating-a-service-principal-with-graph-permissions).
+4. Create a service principal for the Status function to use.
+   See the Status function [README](https://github.com/alan-turing-institute/rctab-functions/tree/main/status_function#creating-a-service-principal-with-graph-permissions).
 5. Install [Pulumi](https://www.pulumi.com/), set up an account and login.
 6. Set the [Configuration Variables](#configuration-variables).
 7. Run `pulumi up`.
-8. Configure Azure settings.
+8. Complete the [Post Pulumi Deployment](#post-pulumi-deployment) steps.
 
 ## Configuration Variables
 
@@ -17,6 +18,8 @@ The resources required for RCTab are built by running `pulumi up` in the root di
 Before you can run this, however, you are required to set a number of config variables.
 These variables allow Azure to run the application and configure your instance of RCTab.
 Some of these are stored as environment variables in the functions' and webapp's [configuration](https://learn.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal).
+
+If you are testing/developing RCTab, it may be sufficient to use the [Example Minimal Configuration](#example-minimal-configuration) below.
 
 **Note**, whilst it is possible to edit these configurations directly on Azure, if a future update is made to the RCTab infrastructure and you run `pulumi up` again, these config variables will be **overwritten** or **deleted** from Azure and reset to the value specified in the pulumi config.
 
@@ -91,9 +94,11 @@ pulumi config set --secret db_root_cert_path <path/to/DigiCertGlobalRootCA.crt.p
 ```
 
 RCTab uses the Azure Database for PostgreSQL Flexible Server which requires a local certificate file generated from a trusted Certificate Authority (CA) certificate file to connect securely.
-The Flexible Server uses DigiCert Global Root CA (`DigiCertGlobalRootCA.crt.pem`), which you will need to download from [here](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-connect-tls-ssl#applications-that-require-certificate-verification-for-tlsssl-connectivity) and provide the path to as a config variable.
+The Flexible Server uses DigiCert Global Root CA (`DigiCertGlobalRootCA.crt.pem`), which you will need to download so that you can provide the full file path as a config variable.
+You can obtain it:
 
-You can download the certificate and save it to the current working directory using `wget https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem .`
+- Using the link on [this page](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-connect-tls-ssl#applications-that-require-certificate-verification-for-tlsssl-connectivity).
+- Using `wget` to download it to the current directory with the command `wget https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem .`
 
 #### Active Directory Server Admin
 
@@ -162,9 +167,9 @@ pulumi config set --secret db_root_cert_path "/home/me/DigiCertGlobalRootCA.crt.
 pulumi config set --secret ad_server_admin "me@my.org"
 pulumi config set --secret ad_tenant_id 00000000-0000-0000-0000-000000000000
 pulumi config set --secret ad_api_client_id 00000000-0000-0000-0000-000000000001
-pulumi config set --secret ad_api_client_secret "123xyz!@£"
+pulumi config set --secret ad_api_client_secret '123xyz!@£'
 pulumi config set --secret ad_status_client_id 00000000-0000-0000-0000-000000000002
-pulumi config set --secret ad_status_client_secret "456fjk$%^"
+pulumi config set --secret ad_status_client_secret '456fjk%^'
 pulumi config set --secret usage_mgmt_group "my-management-group"
 ```
 
@@ -220,7 +225,7 @@ pulumi config set ignore_whitelist <true/false>
 
 Alternatively, you can ignore the whitelist all together to manage everything (limited only by the roles assigned to the function apps' identities).
 
-#### Sendgrid Variables
+#### SendGrid Variables
 
 RCTab uses [SendGrid](https://docs.sendgrid.com/for-developers/partners/microsoft-azure-2021) to send emails (.e.g usage alerts and daily summaries).
 You will need to set up a SendGrid account and configure an API key that will be set as an environment variable.
@@ -343,8 +348,8 @@ Consequently, it is possible, if not advisable, to set different versions for ea
 
 ## Post Pulumi Deployment
 
-Once `pulumi up` has ran without errors, all the resources required to run RCTab will have been created on Azure.
-You can see them in portal.azure by navigating to the subscription previously chosen with `az account set`.
+Once `pulumi up` has run without errors, all the resources required to run RCTab will have been created on Azure.
+You can see them in the Azure Portal by navigating to the subscription previously chosen with `az account set`.
 The function apps and API will automatically pull their images from DockerHub and start running.
 However, there are some additional settings you need to configure to get RCTab working fully.
 
@@ -382,4 +387,5 @@ See above for instructions on role assignment via the Portal or CLI.
 
 Now that you know your RCTab web app's URL, you should add a redirect to the app registration you created for the [API](#api).
 
-Your redirect URI will be something like `https://rctab-ticker-stack.azurewebsites.net/getAToken`. See [add a redirect URI](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#add-a-redirect-uri).
+Your redirect URI will be something like `https://rctab-ticker-stack.azurewebsites.net/getAToken`.
+See [add a redirect URI](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#add-a-redirect-uri).
