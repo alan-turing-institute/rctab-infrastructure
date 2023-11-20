@@ -45,13 +45,13 @@ If you change the stack name (e.g. with `pulumi stack rename`) after deployment,
 The location specifies the [location of resources on Azure](https://azure.microsoft.com/en-gb/explore/global-infrastructure/geographies/#overview).
 
 ```shell
-pulumi config set azure-native:location <azure-location>
+pulumi config set azure-native:location '<azure-location>'
 ```
 
 #### Organisation
 
 ```shell
-pulumi config set organisation <organisation>
+pulumi config set organisation '<organisation>'
 ```
 
 Organisation specifies the name of your organisation and is used on the API frontend.
@@ -61,7 +61,7 @@ There are no restrictions of the length or characters for this.
 #### Ticker
 
 ```shell
-pulumi config set ticker <ticker>
+pulumi config set ticker '<ticker>'
 ```
 
 Ticker is an identifier of your organisation that is between 2 and 6 characters in length.
@@ -80,7 +80,7 @@ If you change either after deployment, Pulumi will drop and recreate the databas
 #### Primary IP
 
 ```shell
-pulumi config set --secret primary_ip_address <primary_ip_address>
+pulumi config set --secret primary_ip_address '<primary_ip_address>'
 ```
 
 The Primary IP is the IP address from which people from within your organisation can access your instance of RCTab.
@@ -90,7 +90,7 @@ Additional IP addresses can be specified within the Azure portal.
 #### DB Root Cert Path
 
 ```shell
-pulumi config set --secret db_root_cert_path <path/to/DigiCertGlobalRootCA.crt.pem>
+pulumi config set --secret db_root_cert_path '<path/to/DigiCertGlobalRootCA.crt.pem>'
 ```
 
 RCTab uses the Azure Database for PostgreSQL Flexible Server which requires a local certificate file generated from a trusted Certificate Authority (CA) certificate file to connect securely.
@@ -103,7 +103,7 @@ You can obtain it:
 #### Active Directory Server Admin
 
 ```shell
-pulumi config set --secret ad_server_admin <ad-server-admin>
+pulumi config set --secret ad_server_admin '<ad-server-admin>'
 ```
 
 A user, group or service principal who will be able to create or enable users for Azure AD-based authentication.
@@ -112,7 +112,7 @@ See [these](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/h
 #### Active Directory Tenant ID
 
 ```shell
-pulumi config set --secret ad_tenant_id <ad-tenant-id>
+pulumi config set --secret ad_tenant_id '<ad-tenant-id>'
 ```
 
 The Active Directory tenant ID is unique to your organisation and is a series of unique letters and numbers which identify your Azure Active Directory Tenant globally.
@@ -131,8 +131,8 @@ RCTab requires that the API and Status function are able to identify themselves 
 You will need to follow the API instructions for [application registration](https://rctab-api.readthedocs.io/en/latest/content/setup.html#application-registration).
 
 ```shell
-pulumi config set --secret ad_api_client_id <ad-api-client-id>
-pulumi config set --secret ad_api_client_secret <ad-api-client-secret>
+pulumi config set --secret ad_api_client_id '<ad-api-client-id>'
+pulumi config set --secret ad_api_client_secret '<ad-api-client-secret>'
 ```
 
 #### Status Function
@@ -140,14 +140,14 @@ pulumi config set --secret ad_api_client_secret <ad-api-client-secret>
 Ensure you have first followed the Status function [service principal setup instructions](https://rctab-functions.readthedocs.io/en/latest/content/status.html#creating-a-service-principal-with-graph-permissions).
 
 ```shell
-pulumi config set --secret ad_status_client_id <ad-status-client-id>
-pulumi config set --secret ad_status_client_secret <ad-status-client-secret>
+pulumi config set --secret ad_status_client_id '<ad-status-client-id>'
+pulumi config set --secret ad_status_client_secret '<ad-status-client-secret>'
 ```
 
 #### Usage Management Group
 
 ```shell
-pulumi config set usage_mgmt_group <mgmt-group-id>
+pulumi config set usage_mgmt_group '<mgmt-group-id>'
 ```
 
 The ID of the management group that the Usage function app will collect data for.
@@ -158,19 +158,19 @@ The Usage function app should have enough permissions over this management group
 An example minimal configuration might look something like this:
 
 ```shell
-pulumi stack init dev
-pulumi config set azure-native:location UkSouth
-pulumi config set organisation "My Organisation"
-pulumi config set ticker myorg
-pulumi config set --secret primary_ip_address 123.123.123.123
-pulumi config set --secret db_root_cert_path "/home/me/DigiCertGlobalRootCA.crt.pem"
-pulumi config set --secret ad_server_admin "me@my.org"
-pulumi config set --secret ad_tenant_id 00000000-0000-0000-0000-000000000000
-pulumi config set --secret ad_api_client_id 00000000-0000-0000-0000-000000000001
-pulumi config set --secret ad_api_client_secret '123xyz!@£'
-pulumi config set --secret ad_status_client_id 00000000-0000-0000-0000-000000000002
-pulumi config set --secret ad_status_client_secret '456fjk%^'
-pulumi config set --secret usage_mgmt_group "my-management-group"
+pulumi stack init 'dev'
+pulumi config set azure-native:location 'UkSouth'
+pulumi config set organisation 'My Organisation'
+pulumi config set ticker 'myorg'
+pulumi config set --secret primary_ip_address '123.123.123.123'  # Replace
+pulumi config set --secret db_root_cert_path '/home/me/DigiCertGlobalRootCA.crt.pem' # Replace
+pulumi config set --secret ad_server_admin 'me@my.org'
+pulumi config set --secret ad_tenant_id '00000000-0000-0000-0000-000000000000'
+pulumi config set --secret ad_api_client_id '00000000-0000-0000-0000-000000000001'
+pulumi config set --secret ad_api_client_secret 'the-api-secret'
+pulumi config set --secret ad_status_client_id '00000000-0000-0000-0000-000000000002'
+pulumi config set --secret ad_status_client_secret 'the-status-secret'
+pulumi config set --secret usage_mgmt_group 'my-management-group'
 ```
 
 ### Optional Config Variables
@@ -181,18 +181,18 @@ They come with default options specified, but you can overwrite these to provide
 #### Notifiable Roles
 
 ```shell
-pulumi config set notifiable_roles "<role1>, <role2>"
+pulumi config set notifiable_roles '<role1>, <role2>'
 ```
 
 Notifiable Roles are the roles which will receive email notifications about a subscription.
-These should be provided as a comma delimited list in quotes (_e.g._ "Contributor, Reader").
+These should be provided as a comma delimited list in quotes (_e.g._ 'Contributor, Reader').
 
 For defaults, see the API [settings.py](https://github.com/alan-turing-institute/rctab-api/blob/main/rctab/settings.py) file.
 
 #### Roles Filter
 
 ```shell
-pulumi config set roles_filter "<role1, role2>"
+pulumi config set roles_filter '<role1, role2>'
 ```
 
 Roles filter specifies what role changes should other members be notified of.
@@ -203,7 +203,7 @@ For defaults, see the API [settings.py](https://github.com/alan-turing-institute
 #### Admin Email Recipients
 
 ```shell
-pulumi config set admin_email_recipients "<email-address1>, <email-address2>"
+pulumi config set admin_email_recipients '<email-address1>, <email-address2>'
 ```
 
 Admin email recipients specifies a list of emails to notify about admin alerts relating to the running of RCTab.
@@ -213,14 +213,14 @@ By default, nobody will receive the emails.
 #### Whitelist
 
 ```shell
-pulumi config set whitelist "<subscription1-uuid>, <subscription2-uuid>"
+pulumi config set whitelist '<subscription1-uuid>, <subscription2-uuid>'
 ```
 
 By default, RCTab will only manage whitelisted subscriptions.
 To list the subscriptions that RCTab should manage, set the whitelist as a comma-delimited list of subscription UUIDs.
 
 ```shell
-pulumi config set ignore_whitelist <true/false>
+pulumi config set ignore_whitelist '<true/false>'
 ```
 
 Alternatively, you can ignore the whitelist all together to manage everything (limited only by the roles assigned to the function apps' identities).
@@ -232,14 +232,14 @@ You will need to set up a SendGrid account and configure an API key that will be
 You will also need to specify a SendGrid sender email address for the email notifications to be sent from.
 
 ```shell
-pulumi config set sendgrid_api_key <sendgrid-api-key>
-pulumi config set sendgrid_sender_email <sendgrid-sender-email>
+pulumi config set sendgrid_api_key '<sendgrid-api-key>'
+pulumi config set sendgrid_sender_email '<sendgrid-sender-email>'
 ```
 
 #### Log Level
 
 ```shell
-pulumi config set log_level <log-level>
+pulumi config set log_level '<log-level>'
 ```
 
 Sets the logging level for logs created by RCTab.
@@ -267,21 +267,21 @@ To deploy RCTab from your own images you will need to set the Docker registry UR
 If you want to deviate from our image naming scheme, you will also need to set the image name variables and the tag.
 
 ```shell
-pulumi config set docker_api_image "myorg/my-api-image"
-pulumi config set docker_usage_image "myorg/my-usage-image"
-pulumi config set docker_status_image "myorg/my-status-image"
-pulumi config set docker_api_image "myorg/my-api-image"
-pulumi config set docker_usage_image "myorg/my-usage-image"
-pulumi config set docker_status_image "myorg/my-status-image"
-pulumi config set docker_controller_image "myorg/my-controller-image"
-pulumi config set rctab_tag "2.3"
+pulumi config set docker_api_image 'myorg/my-api-image'
+pulumi config set docker_usage_image 'myorg/my-usage-image'
+pulumi config set docker_status_image 'myorg/my-status-image'
+pulumi config set docker_api_image 'myorg/my-api-image'
+pulumi config set docker_usage_image 'myorg/my-usage-image'
+pulumi config set docker_status_image 'myorg/my-status-image'
+pulumi config set docker_controller_image 'myorg/my-controller-image'
+pulumi config set rctab_tag '2.3'
 ```
 
 To save time with debugging and redeployment, it is advisable to should check that the images and tag work with the Docker CLI before running `pulumi up`.
 
 By default, the API and Functions will create web hooks that you can use to receive notifications whenever there are changes to your images.
 Azure calls this setting, [Continuous Deployment](https://learn.microsoft.com/en-us/azure/app-service/deploy-ci-cd-custom-container?tabs=acr&pivots=container-linux#4-enable-cicd).
-If you wish, you can disable it `pulumi config set auto_deploy false`.
+If you wish, you can disable it `pulumi config set auto_deploy 'false'`.
 
 > **Note**
 If you are using our images, your app and functions will not receive web hook triggers whenever we push a new version and will only update to the latest version of an image when restarted.
@@ -289,17 +289,17 @@ If you are using our images, your app and functions will not receive web hook tr
 ##### DockerHub
 
 ```shell
-pulumi config set --secret docker_registry_server_username <username>
-pulumi config set --secret docker_registry_server_password <PAT>
+pulumi config set --secret docker_registry_server_username '<username>'
+pulumi config set --secret docker_registry_server_password '<PAT>'
 ```
 
 No need to set the `docker_registry_server_url` as it is already set for DockerHub.
 
 ```shell
-pulumi config set docker_usage_image <owner>/<usage-function-image-name>:<tag>
-pulumi config set docker_controller_image <owner>/<controller-function-image-name>:<tag>
-pulumi config set docker_status_image <owner>/<status-function-image-name>:<tag>
-pulumi config set docker_api_image <owner>/<api-image-name>:<tag>
+pulumi config set docker_usage_image '<owner>/<usage-function-image-name>:<tag>'
+pulumi config set docker_controller_image '<owner>/<controller-function-image-name>:<tag>'
+pulumi config set docker_status_image '<owner>/<status-function-image-name>:<tag>'
+pulumi config set docker_api_image '<owner>/<api-image-name>:<tag>'
 ```
 
 Note that, except for DockerHub "official" images, the image name will be proceeded by the image owner (e.g. `turingrc/rctab-api`) and that the `rctab_tag` setting will now be ignored as the tag should be provided as part of the `xyz_image` setting.
@@ -314,17 +314,17 @@ docker pull <owner>/<image-name>:<tag>
 ##### Azure Container Registry
 
 ```shell
-pulumi config set --secret docker_registry_server_username <username>
-pulumi config set --secret docker_registry_server_password <password>
-pulumi config set --secret docker_registry_server_url "https://<registry-name>.azurecr.io"
+pulumi config set --secret docker_registry_server_username '<username>'
+pulumi config set --secret docker_registry_server_password '<password>'
+pulumi config set --secret docker_registry_server_url 'https://<registry-name>.azurecr.io'
 ```
 
 Set the secrets needed to authenticate with your Azure Container Registry (ACR) instance.
 
 ```shell
-pulumi config set docker_usage_image <registry-url>/<usage-function-image-name>:<tag>
-pulumi config set docker_controller_image <registry-url>/controller-function-image-name>:<tag>
-pulumi config set docker_status_image <registry-url>/<status-function-image-name>:<tag>
+pulumi config set docker_usage_image '<registry-url>/<usage-function-image-name>:<tag>'
+pulumi config set docker_controller_image '<registry-url>/controller-function-image-name>:<tag>'
+pulumi config set docker_status_image '<registry-url>/<status-function-image-name>:<tag>'
 ```
 
 Using ACR requires us to prepend the registry URL (typically `<registry-name>.azurecr.io`) to the image name.
@@ -337,7 +337,7 @@ docker pull <registry-url>/my-usage-image:2.3
 #### Pinning the RCTab Version
 
 ```shell
-pulumi config set rctab_tag 1.3
+pulumi config set rctab_tag '1.3'
 ```
 
 If you want to set RCTab to a specific version, use the config variable `rctab_tag` to specify the exact version you wish to use.
@@ -368,7 +368,7 @@ You will need to give the Usage app's [managed identity](https://learn.microsoft
 #### Using the Azure CLI
 
 ```shell
-az role assignment create --assignee-object-id <usage-app-managed-identity-object-id> --role "insert-role-name-here" --scope <management-group-id>
+az role assignment create --assignee-object-id '<usage-app-managed-identity-object-id>' --role '<insert-role-name-here>' --scope '<management-group-id>'
 ```
 
 ### Give the Controller App a Role on Azure
