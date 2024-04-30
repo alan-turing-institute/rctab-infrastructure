@@ -8,6 +8,7 @@ from pulumi_azure_native.web import NameValuePairArgs
 from rctab_infrastructure.utils import (
     assert_is_file,
     assert_str_true_or_false,
+    assert_valid_int_list,
     assert_valid_log_level,
     assert_valid_uuid_list,
     check_valid_ip_address,
@@ -134,6 +135,20 @@ class SyncTestCase(unittest.TestCase):
             ValueError, msg="Either billing_account_id or mgmt_group must be set"
         ):
             raise_billing_or_mgmt(bad_kwargs_2)
+
+    def test_assert_valid_int_list(self) -> None:
+        self.assertIsNone(assert_valid_int_list(None))
+        self.assertEqual(
+            assert_valid_int_list(""), ""
+        )
+        self.assertEqual(
+            assert_valid_int_list(
+                "1, 7, 14, 21"
+            ),
+            "1, 7, 14, 21"
+        )
+        with self.assertRaises(AssertionError, msg="hi is not a valid integer"):
+            assert_valid_uuid_list("12.4")
 
 
 class AsyncTestCase(unittest.TestCase):

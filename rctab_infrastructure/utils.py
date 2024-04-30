@@ -240,3 +240,23 @@ def check_valid_ip_address(ip2check: str):
     """
     ipaddress.ip_address(ip2check)
     return ip2check
+
+def assert_valid_int_list(int_list: Optional[str]) -> Optional[str]:
+    """Check the integer list provided is a list of valid integers or an empty string.
+
+    Args:
+        int_list: A comma separated list of integers.
+
+    Raises:
+        AssertionError: If any of the items in the list are not valid integers.
+
+    Returns:
+        The int_list if it is a list of valid integers or an empty string.
+    """
+    if int_list:
+        integers = int_list.split(",")
+        for item in integers:
+            assert (
+                item.strip().isdecimal() is True
+            ), f"{item.strip()} is not a valid integer."
+    return int_list

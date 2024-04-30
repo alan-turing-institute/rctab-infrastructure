@@ -212,6 +212,16 @@ Admin email recipients specifies a list of emails to notify about admin alerts r
 
 By default, nobody will receive the emails.
 
+#### Expiry Email Frequency
+
+```shell
+pulumi config set expiry_email_freq '<day1>, <day2>,...,<dayn>'
+```
+
+Frequency in which the email recipients receive notification of subscription expiry. Specified as a list of days (integers). Each specified day signifies the number of days before the subscription expires (e.g., 21 indicates to send an email 21 days before a subscription expiry).
+
+By default, the frequency is set as '1, 7, 30', which translates to sending an email 1 day, 7 days, and 30 days before a subscription expires.
+
 #### Whitelist
 
 ```shell

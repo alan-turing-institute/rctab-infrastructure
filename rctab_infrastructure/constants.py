@@ -50,6 +50,8 @@ Attributes:
         service principal. REQUIRED.
     SENDGRID_API_KEY (str): The API key for SendGrid. REQUIRED.
     SENDGRID_SENDER_EMAIL (str): The sender email address for SendGrid. REQUIRED.
+    EXPIRY_EMAIL_FREQ (str): The list of days to send expiry email notification.
+        REQUIRED.
     NOTIFIABLE_ROLES (str): The roles to notify. Defaults to an empty string.
     ROLES_FILTER (str): The roles to filter. Defaults to an empty string.
     ADMIN_EMAIL_RECIPIENTS (str): The email recipients for admin emails.
@@ -69,6 +71,7 @@ from pulumi_azure_native.web import NameValuePairArgs
 from rctab_infrastructure.utils import (
     assert_is_file,
     assert_str_true_or_false,
+    assert_valid_int_list,
     assert_valid_log_level,
     assert_valid_uuid_list,
     check_valid_ip_address,
@@ -139,6 +142,9 @@ AD_STATUS_CLIENT_SECRET: Final[Output[str]] = config.require_secret(
 SENDGRID_API_KEY: Final[Optional[Output[str]]] = config.get_secret("sendgrid_api_key")
 SENDGRID_SENDER_EMAIL: Final[Optional[Output[str]]] = config.get_secret(
     "sendgrid_sender_email"
+)
+EXPIRY_EMAIL_FREQ: Final[Optional[Output[str]]] = assert_valid_int_list(
+    config.get("expiry_email_freq")
 )
 NOTIFIABLE_ROLES: Final[Optional[str]] = format_list_str(config.get("notifiable_roles"))
 ROLES_FILTER: Final[Optional[str]] = format_list_str(config.get("roles_filter"))

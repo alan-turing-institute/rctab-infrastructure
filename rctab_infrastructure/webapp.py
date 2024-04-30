@@ -120,6 +120,7 @@ def create_webapp(
         for item in (
             ["SENDGRID_API_KEY", SENDGRID_API_KEY],
             ["SENDGRID_SENDER_EMAIL", SENDGRID_SENDER_EMAIL],
+            ["EXPIRY_EMAIL_FREQ", EXPIRY_EMAIL_FREQ],
             ["NOTIFIABLE_ROLES", NOTIFIABLE_ROLES],
             ["ROLES_FILTER", ROLES_FILTER],
             ["ADMIN_EMAIL_RECIPIENTS", ADMIN_EMAIL_RECIPIENTS],
