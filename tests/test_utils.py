@@ -138,15 +138,8 @@ class SyncTestCase(unittest.TestCase):
 
     def test_assert_valid_int_list(self) -> None:
         self.assertIsNone(assert_valid_int_list(None))
-        self.assertEqual(
-            assert_valid_int_list(""), ""
-        )
-        self.assertEqual(
-            assert_valid_int_list(
-                "1, 7, 14, 21"
-            ),
-            "1, 7, 14, 21"
-        )
+        self.assertEqual(assert_valid_int_list(""), "")
+        self.assertEqual(assert_valid_int_list("1, 7, 14, 21"), "1, 7, 14, 21")
         with self.assertRaises(AssertionError, msg="hi is not a valid integer"):
             assert_valid_uuid_list("12.4")
 

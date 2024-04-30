@@ -63,6 +63,7 @@ Attributes:
     BILLING_ACCOUNT_ID (str): The billing account ID. REQUIRED.
     MGMT_GROUP (str): The management group. REQUIRED.
 """
+
 from typing import Final, Optional
 
 from pulumi import Config, Output, get_stack
@@ -143,7 +144,7 @@ SENDGRID_API_KEY: Final[Optional[Output[str]]] = config.get_secret("sendgrid_api
 SENDGRID_SENDER_EMAIL: Final[Optional[Output[str]]] = config.get_secret(
     "sendgrid_sender_email"
 )
-EXPIRY_EMAIL_FREQ: Final[Optional[Output[str]]] = assert_valid_int_list(
+EXPIRY_EMAIL_FREQ: Final[Optional[str]] = assert_valid_int_list(
     config.get("expiry_email_freq")
 )
 NOTIFIABLE_ROLES: Final[Optional[str]] = format_list_str(config.get("notifiable_roles"))

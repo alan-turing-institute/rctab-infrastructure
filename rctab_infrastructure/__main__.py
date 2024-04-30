@@ -1,4 +1,5 @@
 """Pulumi script for creating a Function App (and dependencies) on Azure."""
+
 from pulumi_tls import PrivateKey, PrivateKeyArgs
 
 from rctab_infrastructure.api import set_up_api

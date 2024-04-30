@@ -1,4 +1,5 @@
 """General infrastructure code utilities."""
+
 import ipaddress
 import re
 import uuid
@@ -240,6 +241,7 @@ def check_valid_ip_address(ip2check: str):
     """
     ipaddress.ip_address(ip2check)
     return ip2check
+
 
 def assert_valid_int_list(int_list: Optional[str]) -> Optional[str]:
     """Check the integer list provided is a list of valid integers or an empty string.

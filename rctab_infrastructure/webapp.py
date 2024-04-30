@@ -1,4 +1,5 @@
 """Web app infrastructure code."""
+
 import pulumi_azure_native.dbforpostgresql.v20230301preview as dbforpostgresql
 import pulumi_random as random
 from pulumi import Output, ResourceOptions
@@ -16,6 +17,7 @@ from rctab_infrastructure.constants import (
     DOCKER_REGISTRY_SERVER_PASSWORD,
     DOCKER_REGISTRY_SERVER_URL,
     DOCKER_REGISTRY_SERVER_USERNAME,
+    EXPIRY_EMAIL_FREQ,
     IDENTIFIER,
     IGNORE_WHITELIST,
     LOG_LEVEL,
