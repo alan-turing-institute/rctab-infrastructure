@@ -12,6 +12,7 @@ from rctab_infrastructure.utils import (
     assert_valid_log_level,
     assert_valid_uuid_list,
     check_valid_ip_address,
+    format_list_int,
     format_list_str,
     format_secret_list_str,
     is_valid_uuid,
@@ -27,6 +28,9 @@ class SyncTestCase(unittest.TestCase):
     def test_format_list_str(self):
         self.assertEqual('["abc", "def", "ghi"]', format_list_str("abc, def, ghi"))
 
+    def test_format_list_int(self):
+        self.assertEqual("[1, 2]", format_list_int("1, 2"))
+
     def test_assert_str_true_or_false(self):
         self.assertEqual("true", assert_str_true_or_false("true"))
         self.assertEqual("false", assert_str_true_or_false("false"))
@@ -37,8 +41,10 @@ class SyncTestCase(unittest.TestCase):
         self.assertIsNone(assert_str_true_or_false(None))
 
     def test_raise_if_none(self):
-        with self.assertRaises(ValueError, msg="Value should be None"):
+        with self.assertRaises(ValueError) as cm:
             raise_if_none(None)
+        self.assertEqual("Value should not be None", str(cm.exception))
+
         self.assertEqual("AOK", raise_if_none("AOK"))
         self.assertEqual(100, raise_if_none(100))
         self.assertEqual([100], raise_if_none([100]))
@@ -54,27 +60,28 @@ class SyncTestCase(unittest.TestCase):
     def test_validate_ticker_stack_combination(self):
         self.assertEqual("tkr-stack", validate_ticker_stack_combination("tkr", "stack"))
 
-        with self.assertRaises(
-            AssertionError, msg="Ticker cannot be less than 2 characters"
-        ):
+        with self.assertRaises(AssertionError) as cm:
             validate_ticker_stack_combination("a", "ticker")
+        self.assertEqual("Ticker cannot be less than 2 characters", str(cm.exception))
 
-        with self.assertRaises(
-            AssertionError, msg="Ticker cannot be more than 6 characters"
-        ):
-            validate_ticker_stack_combination("ticker", "stack")
+        with self.assertRaises(AssertionError) as cm:
+            validate_ticker_stack_combination("ticker_", "stack")
+        self.assertEqual("Ticker cannot be more than 6 characters", str(cm.exception))
 
         valid_identifier_pattern = r"^[a-zA-Z0-9-]{3,20}$"
         msg = (
-            f"The organisation and stack name must match the pattern "
-            f"'{valid_identifier_pattern}'. ",
-            "Please ensure the combined stack and organisation names "
-            "are less than 24 characters long.",
+            "The organisation and stack name must match the pattern "
+            f"'{valid_identifier_pattern}' "
         )
-        with self.assertRaises(AssertionError, msg=msg):
+        with self.assertRaises(AssertionError) as cm:
             validate_ticker_stack_combination("tkr..", "stack..")
-        with self.assertRaises(AssertionError, msg=msg):
+        self.assertEqual(msg + "but is 'tkr..-stack..-abcdefgh'.", str(cm.exception))
+
+        with self.assertRaises(AssertionError) as cm:
             validate_ticker_stack_combination("tk", "atickernamethatistoo")
+        self.assertEqual(
+            msg + "but is 'tk-atickernamethatistoo-abcdefgh'.", str(cm.exception)
+        )
 
     def test_is_valid_uuid(self):
         self.assertTrue(is_valid_uuid("00000000-0000-0000-0000-000000000000"))
@@ -90,8 +97,9 @@ class SyncTestCase(unittest.TestCase):
             "00000000-0000-0000-0000-000000000000, "
             "11111111-1111-1111-1111-111111111111",
         )
-        with self.assertRaises(AssertionError, msg="hi is not a valid UUID"):
+        with self.assertRaises(AssertionError) as cm:
             assert_valid_uuid_list("hi")
+        self.assertEqual("hi is not a valid UUID", str(cm.exception))
 
     def test_assert_valid_log_level(self):
         allowed_levels = (
@@ -108,8 +116,9 @@ class SyncTestCase(unittest.TestCase):
             self.assertEqual(level, assert_valid_log_level(level))
         self.assertEqual("CRITICAL", assert_valid_log_level("critical"))
         self.assertIsNone(assert_valid_log_level(None))
-        with self.assertRaises(AssertionError, msg=f"HI not in {allowed_levels}"):
+        with self.assertRaises(AssertionError) as cm:
             assert_valid_log_level("hi")
+        self.assertEqual(f"HI not in {allowed_levels}", str(cm.exception))
 
     def test_check_valid_ip_address(self):
         self.assertEqual("192.168.123.132", check_valid_ip_address("192.168.123.132"))
@@ -123,25 +132,34 @@ class SyncTestCase(unittest.TestCase):
         )
         mgmt_kwargs = {"billing": "", "mgmt": "mymgmtgroup"}
         mgmt_return = NameValuePairArgs(name="MGMT_GROUP", value="mymgmtgroup")
-        bad_kwargs_1 = {"billing": "", "mgmt": ""}
-        bad_kwargs_2 = {"billing": "mybillinggroup", "mgmt": "mymgmtgroup"}
         self.assertEqual(billing_return, raise_billing_or_mgmt(billing_kwargs))
         self.assertEqual(mgmt_return, raise_billing_or_mgmt(mgmt_kwargs))
-        with self.assertRaises(
-            ValueError, msg="Either billing_account_id or mgmt_group must be set"
-        ):
-            raise_billing_or_mgmt(bad_kwargs_1)
-        with self.assertRaises(
-            ValueError, msg="Either billing_account_id or mgmt_group must be set"
-        ):
-            raise_billing_or_mgmt(bad_kwargs_2)
+
+        bad_kwargs = {"billing": "", "mgmt": ""}
+        msg = (
+            "One of billing_account_id or usage_mgmt_group "
+            "should be set but neither is."
+        )
+        with self.assertRaises(ValueError) as cm:
+            raise_billing_or_mgmt(bad_kwargs)
+        self.assertEqual(msg, str(cm.exception))
+
+        bad_kwargs = {"billing": "mybillinggroup", "mgmt": "mymgmtgroup"}
+        msg = (
+            "Only one of billing_account_id or usage_mgmt_group "
+            "should be set but both are."
+        )
+        with self.assertRaises(ValueError) as cm:
+            raise_billing_or_mgmt(bad_kwargs)
+        self.assertEqual(msg, str(cm.exception))
 
     def test_assert_valid_int_list(self) -> None:
         self.assertIsNone(assert_valid_int_list(None))
         self.assertEqual(assert_valid_int_list(""), "")
         self.assertEqual(assert_valid_int_list("1, 7, 14, 21"), "1, 7, 14, 21")
-        with self.assertRaises(AssertionError, msg="hi is not a valid integer"):
-            assert_valid_uuid_list("12.4")
+        with self.assertRaises(AssertionError) as cm:
+            assert_valid_int_list("12.4")
+        self.assertEqual("12.4 is not a valid integer.", str(cm.exception))
 
 
 class AsyncTestCase(unittest.TestCase):

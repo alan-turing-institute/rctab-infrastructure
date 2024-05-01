@@ -29,6 +29,20 @@ def format_list_str(input_str: Optional[str]) -> Optional[str]:
     return input_str
 
 
+def format_list_int(input_str: Optional[str]) -> Optional[str]:
+    """Convert a comma-separated list of ints into a JSON compatible list.
+
+    Args:
+        input_str: A comma separated list such as '1, 7, 30'
+
+    Returns:
+        A JSON compatible list such as '[1, 7, 30]'.
+    """
+    if input_str:
+        return f"[{input_str}]"
+    return input_str
+
+
 def format_secret_list_str(input_str: Optional[Output[str]]) -> Optional[Output[str]]:
     """Convert a comma-separated list into a JSON compatible list.
 
@@ -128,7 +142,7 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
     assert len(ticker) < 7, "Ticker cannot be more than 6 characters"
     assert re.match(valid_identifier_pattern, org_stack), (
         f"The organisation and stack name must match the pattern "
-        f"'{valid_identifier_pattern}' but is '{org_stack}'.",
+        f"'{valid_identifier_pattern}' but is '{org_stack}'."
     )
     return proposed_identifier
 

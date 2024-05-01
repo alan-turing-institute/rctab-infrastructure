@@ -76,6 +76,7 @@ from rctab_infrastructure.utils import (
     assert_valid_log_level,
     assert_valid_uuid_list,
     check_valid_ip_address,
+    format_list_int,
     format_list_str,
     format_secret_list_str,
     raise_billing_or_mgmt,
@@ -144,8 +145,8 @@ SENDGRID_API_KEY: Final[Optional[Output[str]]] = config.get_secret("sendgrid_api
 SENDGRID_SENDER_EMAIL: Final[Optional[Output[str]]] = config.get_secret(
     "sendgrid_sender_email"
 )
-EXPIRY_EMAIL_FREQ: Final[Optional[str]] = assert_valid_int_list(
-    config.get("expiry_email_freq")
+EXPIRY_EMAIL_FREQ: Final[Optional[str]] = format_list_int(
+    assert_valid_int_list(config.get("expiry_email_freq"))
 )
 NOTIFIABLE_ROLES: Final[Optional[str]] = format_list_str(config.get("notifiable_roles"))
 ROLES_FILTER: Final[Optional[str]] = format_list_str(config.get("roles_filter"))
