@@ -1,4 +1,5 @@
 """General infrastructure code utilities."""
+
 import ipaddress
 import re
 import uuid
@@ -25,6 +26,20 @@ def format_list_str(input_str: Optional[str]) -> Optional[str]:
             [f'"{item.strip()}"' for item in input_str.split(",")]
         )
         return f"[{formatted_str}]"
+    return input_str
+
+
+def format_list_int(input_str: Optional[str]) -> Optional[str]:
+    """Convert a comma-separated list of ints into a JSON compatible list.
+
+    Args:
+        input_str: A comma separated list such as '1, 7, 30'
+
+    Returns:
+        A JSON compatible list such as '[1, 7, 30]'.
+    """
+    if input_str:
+        return f"[{input_str}]"
     return input_str
 
 
@@ -127,7 +142,7 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
     assert len(ticker) < 7, "Ticker cannot be more than 6 characters"
     assert re.match(valid_identifier_pattern, org_stack), (
         f"The organisation and stack name must match the pattern "
-        f"'{valid_identifier_pattern}' but is '{org_stack}'.",
+        f"'{valid_identifier_pattern}' but is '{org_stack}'."
     )
     return proposed_identifier
 
@@ -240,3 +255,24 @@ def check_valid_ip_address(ip2check: str):
     """
     ipaddress.ip_address(ip2check)
     return ip2check
+
+
+def assert_valid_int_list(int_list: Optional[str]) -> Optional[str]:
+    """Check the integer list provided is a list of valid integers or an empty string.
+
+    Args:
+        int_list: A comma separated list of integers.
+
+    Raises:
+        AssertionError: If any of the items in the list are not valid integers.
+
+    Returns:
+        The int_list if it is a list of valid integers or an empty string.
+    """
+    if int_list:
+        integers = int_list.split(",")
+        for item in integers:
+            assert (
+                item.strip().isdecimal() is True
+            ), f"{item.strip()} is not a valid integer."
+    return int_list

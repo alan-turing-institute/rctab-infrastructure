@@ -1,4 +1,5 @@
 """Key vault infrastructure code."""
+
 from pulumi_azure_native import authorization, keyvault, resources
 from pulumi_azure_native.keyvault import SkuName
 

@@ -1,4 +1,5 @@
 """Infrastructure code to make a web app with a database."""
+
 from typing import Tuple
 
 import pulumi_azure_native.dbforpostgresql.v20230301preview as dbforpostgresql

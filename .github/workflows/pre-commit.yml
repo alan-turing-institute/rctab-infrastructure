@@ -58,3 +58,5 @@ jobs:
         run: |
           PYRIGHT_PYTHON_GLOBAL_NODE=0
           poetry run pre-commit run --all-files --show-diff-on-failure --color=always
+        env:
+          SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}

@@ -1,4 +1,5 @@
 """Database infrastructure code."""
+
 from typing import Final, Tuple
 
 import pulumi
@@ -16,9 +17,9 @@ from rctab_infrastructure.constants import (
 )
 from rctab_infrastructure.utils import raise_if_none
 
-SERVER_VERSION: Final[
-    dbforpostgresql.ServerVersion
-] = dbforpostgresql.ServerVersion.SERVER_VERSION_14
+SERVER_VERSION: Final[dbforpostgresql.ServerVersion] = (
+    dbforpostgresql.ServerVersion.SERVER_VERSION_14
+)
 
 # pylint: disable=too-many-arguments
 

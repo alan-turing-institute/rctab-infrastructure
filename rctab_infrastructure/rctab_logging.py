@@ -1,4 +1,5 @@
 """Logging workspace infrastructure code."""
+
 from typing import Optional, Sequence, Tuple
 
 from pulumi import Output

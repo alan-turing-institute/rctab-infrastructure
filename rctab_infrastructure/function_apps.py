@@ -1,4 +1,5 @@
 """Function app infrastructure code."""
+
 from typing import Tuple, Union
 
 import pulumi
