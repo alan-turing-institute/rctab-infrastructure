@@ -17,6 +17,9 @@ report:
         unpinned-requirements: true
       cvss-severity: []
       vulnerabilities:
+        70612:
+          reason: We do not use untrusted templates that would require the from_string() method.
+          expires: '2024-12-12'
 
 
 fail-scan-with-exit-code:
