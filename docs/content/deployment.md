@@ -90,15 +90,15 @@ Additional IP addresses can be specified within the Azure portal.
 #### DB Root Cert Path
 
 ```shell
-pulumi config set --secret db_root_cert_path '<path/to/DigiCertGlobalRootCA.crt.pem>'
+pulumi config set --secret db_root_cert_path '<path/to/x509.crt.pem>'
 ```
 
-RCTab uses the Azure Database for PostgreSQL Flexible Server which requires a local certificate file generated from a trusted Certificate Authority (CA) certificate file to connect securely.
-The Flexible Server uses DigiCert Global Root CA (`DigiCertGlobalRootCA.crt.pem`), which you will need to download so that you can provide the full file path as a config variable.
-You can obtain it:
+RCTab uses an Azure Database for PostgreSQL Flexible Server, which requires a copy of a trusted Certificate Authority (CA) certificate file to connect securely.
+You will need to download the Microsoft RSA Root Certificate Authority 2017 certificate and convert it to PEM format:
 
-- Using the link on [this page](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-connect-tls-ssl#applications-that-require-certificate-verification-for-tlsssl-connectivity).
-- Using `wget` to download it to the current directory with the command `wget https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem .`
+1. You can download it using the `crt` link on <https://www.microsoft.com/pkiops/docs/repository.html>.
+2. You should verify that the hash generated with the shasum command (e.g. `shasum -a 1 /path/to/your/downloaded/file.crt`) matches that shown on the webpage.
+3. You can convert the `.crt` file to a `.pem` with `openssl x509 -inform DER -outform PEM -in /path/to/your/downloaded/file.crt -out x509.crt.pem`.
 
 #### Active Directory Server Admin
 
