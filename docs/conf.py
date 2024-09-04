@@ -23,7 +23,7 @@ def require_or_get(*args, **kwargs):
         "log_level": "WARNING",
         "db_root_cert_path": str(pathlib.Path(__file__).absolute()),
         "whitelist": None,
-        "expiry_email_freq": "1"
+        "expiry_email_freq": "1",
     }
     if args and args[0] in valid_values:
         return valid_values[args[0]]
