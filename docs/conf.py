@@ -27,7 +27,7 @@ def require_or_get(*args, **kwargs):
     }
     if args and args[0] in valid_values:
         return valid_values[args[0]]
-    return "something"
+    return "see conf.py"
 
 
 def secret(*args, **kwargs):
