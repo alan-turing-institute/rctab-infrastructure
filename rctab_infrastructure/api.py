@@ -2,7 +2,9 @@
 
 from typing import Tuple
 
-import pulumi_azure_native.dbforpostgresql.v20230301preview as dbforpostgresql
+import dbforpostgresql
+import import
+import pulumi_azure_native
 from pulumi import Output, ResourceOptions
 from pulumi_azure_native import resources, web
 from pulumi_azure_native.insights import (
