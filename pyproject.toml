@@ -4,7 +4,7 @@ version = "1.1.0"
 description = "Azure deployment code"
 authors = []
 dynamic = ["dependencies"]
-requires-python = ">=3.12"
+requires-python = ">=3.12, <4.0"
 
 [tool.poetry.dependencies]
 pulumi-azure-native = "^3.10.2"
@@ -12,21 +12,21 @@ pulumi = "^3.72.2"
 pulumi-random = "^4.13.1"
 pulumi-postgresql = "^3.8.0"
 pulumi-tls = "^5.2.3"
-sphinx = {version = "^8.0.0", optional = true}
+sphinx = {version = "^7.0.0", optional = true}
 sphinx-rtd-theme = {version = "^3.0.2", optional = true}
 sphinxcontrib-napoleon = {version = "^0.7", optional = true}
 myst-parser = {version = "^2.0.0", optional = true}
 
 [tool.poetry.group.dev.dependencies]
-pyright = "^1.1.315"
-isort = "^5.12.0"
-pylint = "^2.17.4"
-black = "^24.3.0"
-safety = "^3.1.0"
-pre-commit = "^3.3.3"
+pyright = "^1.1.407"
+isort = "^5.0.0"
+pylint = "^3.0.0"
+black = "^25.11.0"
+safety = "^3.7.0"
+pre-commit = "^4.5.0"
 pydocstyle = "^6.3.0"
-pymarkdownlnt = "^0.9.11"
-pylint-absolute-imports = "^1.0.1"
+pymarkdownlnt = "^0.9.33"
+pylint-absolute-imports = "^1.1.0"
 
 [tool.poetry.extras]
 docs = ["sphinx-rtd-theme", "sphinxcontrib-napoleon", "myst-parser", "sphinx"]
