@@ -2,13 +2,10 @@
 
 from typing import Final, Tuple
 
-import dbforpostgresql
-import import
 import pulumi
-import pulumi_azure_native
 import pulumi_random as random
 from pulumi import ResourceOptions
-from pulumi_azure_native import authorization, keyvault, resources
+from pulumi_azure_native import authorization, dbforpostgresql, keyvault, resources
 from pulumi_postgresql import Grant, GrantArgs, Provider, ProviderArgs, Role, RoleArgs
 
 from rctab_infrastructure.constants import (

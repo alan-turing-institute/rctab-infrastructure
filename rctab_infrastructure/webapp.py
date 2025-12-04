@@ -1,11 +1,8 @@
 """Web app infrastructure code."""
 
-import dbforpostgresql
-import import
-import pulumi_azure_native
 import pulumi_random as random
 from pulumi import Output, ResourceOptions
-from pulumi_azure_native import keyvault, resources, web
+from pulumi_azure_native import dbforpostgresql, keyvault, resources, web
 from pulumi_tls import PrivateKey
 
 from rctab_infrastructure.constants import (
