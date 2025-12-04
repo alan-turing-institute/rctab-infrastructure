@@ -2,8 +2,10 @@
 
 from typing import Final, Tuple
 
+import dbforpostgresql
+import import
 import pulumi
-import pulumi_azure_native.dbforpostgresql.v20230301preview as dbforpostgresql
+import pulumi_azure_native
 import pulumi_random as random
 from pulumi import ResourceOptions
 from pulumi_azure_native import authorization, keyvault, resources
