@@ -261,6 +261,15 @@ Must be one of "CRITICAL", "FATAL", "ERROR", "WARNING", "WARN", "INFO", "DEBUG",
 
 For defaults, see the API [settings.py](https://github.com/alan-turing-institute/rctab-api/blob/main/rctab/settings.py) file.
 
+#### Database Server SKU
+
+```shell
+pulumi config set db_sku_type 'test'
+```
+
+By default, RCTab will use `'prod'` as the SKU type, which deploys a production-ready database server.
+For development purposes, you can set the SKU to `test`, which will use a cheaper option with less memory and fewer CPU cores.
+
 ### Docker Images
 
 The function apps and API that make up RCTab are deployed from Docker images stored in a public DockerHub repository.
