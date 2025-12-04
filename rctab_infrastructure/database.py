@@ -173,12 +173,24 @@ def create_database_user(
     )
 
     Grant(
-        "create_schema_grant_user",
+        "grant_on_database",
         GrantArgs(
             database=database.name,
             role=new_user.name,
             object_type="database",
             privileges=["CREATE"],
+        ),
+        opts=pulumi.ResourceOptions(provider=postgres_provider),
+    )
+
+    Grant(
+        "grant_on_schema",
+        GrantArgs(
+            database=database.name,
+            role=new_user.name,
+            object_type="schema",
+            schema="public",
+            privileges=["CREATE", "USAGE"],
         ),
         opts=pulumi.ResourceOptions(provider=postgres_provider),
     )
