@@ -161,6 +161,14 @@ class SyncTestCase(unittest.TestCase):
             assert_valid_int_list("12.4")
         self.assertEqual("12.4 is not a valid integer.", str(cm.exception))
 
+    def test_validate_sku_type(self) -> None:
+        self.assertEqual({"db_sku_name": "Burstable", "db_sku_tier": ""}, validate_sku_type("test"))
+        self.assertEqual({"db_sku_name":"Standard_D4ds_v4","db_sku_tier": ""}, validate_sku_type("prod"))
+        # self.assertIsNone(assert_valid_int_list(None))
+        # with self.assertRaises(AssertionError) as cm:
+        #     assert_valid_int_list("12.4")
+
+
 
 class AsyncTestCase(unittest.TestCase):
     """Tests that return Futures or Outputs.
