@@ -2,18 +2,15 @@
 
 from typing import Tuple
 
-import dbforpostgresql
-import import
-import pulumi_azure_native
 from pulumi import Output, ResourceOptions
-from pulumi_azure_native import resources, web
-from pulumi_azure_native.insights import (
+from pulumi_azure_native import dbforpostgresql, resources, web
+from pulumi_azure_native.applicationinsights import Component, ComponentArgs
+from pulumi_azure_native.monitor import (
     MetricAlert,
     MetricAlertActionArgs,
     MetricAlertMultipleResourceMultipleMetricCriteriaArgs,
     MetricCriteriaArgs,
 )
-from pulumi_azure_native.insights.v20200202 import Component, ComponentArgs
 from pulumi_tls import PrivateKey
 
 from rctab_infrastructure.constants import DATABASE_NAME, IDENTIFIER, PRIMARY_IP

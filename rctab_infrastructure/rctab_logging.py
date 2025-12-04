@@ -4,12 +4,12 @@ from typing import Optional, Sequence, Tuple
 
 from pulumi import Output
 from pulumi_azure_native import operationalinsights, resources
-from pulumi_azure_native.insights import (
+from pulumi_azure_native.applicationinsights import Component
+from pulumi_azure_native.monitor import (
     ActionGroup,
     ActionGroupInitArgs,
     EmailReceiverArgs,
 )
-from pulumi_azure_native.insights.v20200202 import Component
 
 from rctab_infrastructure.constants import ADMIN_EMAIL_RECIPIENTS, IDENTIFIER
 
