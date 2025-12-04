@@ -12,6 +12,8 @@
 7. Run `pulumi up`.
 8. Complete the [Post Pulumi Deployment](#post-pulumi-deployment) steps.
 
+You can take down the instance with `pulumi down --continue-on-error`.
+
 ## Configuration Variables
 
 The resources required for RCTab are built by running `pulumi up` in the root directory of this repository.
