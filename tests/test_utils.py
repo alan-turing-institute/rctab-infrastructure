@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pulumi
 from pulumi import Output
+from pulumi_azure_native import dbforpostgresql
 from pulumi_azure_native.web import NameValuePairArgs
 
 from rctab_infrastructure.utils import (
@@ -18,6 +19,7 @@ from rctab_infrastructure.utils import (
     is_valid_uuid,
     raise_billing_or_mgmt,
     raise_if_none,
+    validate_sku_type,
     validate_ticker_stack_combination,
 )
 
@@ -162,12 +164,25 @@ class SyncTestCase(unittest.TestCase):
         self.assertEqual("12.4 is not a valid integer.", str(cm.exception))
 
     def test_validate_sku_type(self) -> None:
-        self.assertEqual({"db_sku_name": "Burstable", "db_sku_tier": ""}, validate_sku_type("test"))
-        self.assertEqual({"db_sku_name":"Standard_D4ds_v4","db_sku_tier": ""}, validate_sku_type("prod"))
-        # self.assertIsNone(assert_valid_int_list(None))
-        # with self.assertRaises(AssertionError) as cm:
-        #     assert_valid_int_list("12.4")
-
+        """We can validate the choice of sku_type."""
+        # db_sku_name="Standard_B1ms",
+        self.assertEqual(
+            {
+                "db_sku_name": "Standard_B1ms",
+                "db_sku_tier": dbforpostgresql.SkuTier.BURSTABLE,
+            },
+            validate_sku_type("test"),
+        )
+        self.assertEqual(
+            {
+                "db_sku_name": "Standard_D4ds_v4",
+                "db_sku_tier": dbforpostgresql.SkuTier.GENERAL_PURPOSE,
+            },
+            validate_sku_type("prod"),
+        )
+        with self.assertRaises(ValueError) as cm:
+            validate_sku_type("dev")
+        self.assertEqual("sku_type must be one of ['test', 'prod']", str(cm.exception))
 
 
 class AsyncTestCase(unittest.TestCase):

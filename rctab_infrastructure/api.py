@@ -13,7 +13,12 @@ from pulumi_azure_native.monitor import (
 )
 from pulumi_tls import PrivateKey
 
-from rctab_infrastructure.constants import DATABASE_NAME, IDENTIFIER, PRIMARY_IP
+from rctab_infrastructure.constants import (
+    DATABASE_NAME,
+    DB_SKU_TYPE,
+    IDENTIFIER,
+    PRIMARY_IP,
+)
 from rctab_infrastructure.database import create_database_server, create_database_user
 from rctab_infrastructure.keyvault import create_vault
 from rctab_infrastructure.webapp import create_webapp
@@ -132,8 +137,7 @@ def set_up_api(
         admin_username="rctabadmin",
         resource_group=api_resource_group,
         vault=vault,
-        db_sku_name="Standard_D4ds_v4",
-        db_sku_tier=dbforpostgresql.SkuTier.GENERAL_PURPOSE,
+        **DB_SKU_TYPE,
     )
 
     database = dbforpostgresql.Database(

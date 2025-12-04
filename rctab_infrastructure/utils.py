@@ -4,9 +4,10 @@ import ipaddress
 import re
 import uuid
 from pathlib import Path
-from typing import Any, Dict, Optional, TypeVar
+from typing import Any, Optional, TypeVar
 
 from pulumi import Output
+from pulumi_azure_native import dbforpostgresql
 from pulumi_azure_native.web import NameValuePairArgs
 
 T = TypeVar("T")
@@ -147,8 +148,25 @@ def validate_ticker_stack_combination(ticker: str, stack: str) -> str:
     return proposed_identifier
 
 
-def raise_billing_or_mgmt(kwargs: Dict[str, Any]) -> NameValuePairArgs:
-    """Raise if both billing and mngmt are set or neither are set.
+def validate_sku_type(sku_type: str) -> dict[str, str]:
+    """Validate the sku_type is one of the allowed types."""
+    allowed_choices = {
+        "test": {
+            "db_sku_name": "Standard_B1ms",
+            "db_sku_tier": dbforpostgresql.SkuTier.BURSTABLE,
+        },
+        "prod": {
+            "db_sku_name": "Standard_D4ds_v4",
+            "db_sku_tier": dbforpostgresql.SkuTier.GENERAL_PURPOSE,
+        },
+    }
+    if sku_type not in allowed_choices:
+        raise ValueError(f"sku_type must be one of {list(allowed_choices.keys())}")
+    return allowed_choices[sku_type]
+
+
+def raise_billing_or_mgmt(kwargs: dict[str, Any]) -> NameValuePairArgs:
+    """Raise if both billing and mgmt are set or neither are set.
 
     Args:
         kwargs: A dictionary that should have a key of "billing" or of "mgmt".

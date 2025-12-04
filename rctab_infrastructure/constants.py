@@ -80,6 +80,7 @@ from rctab_infrastructure.utils import (
     format_list_str,
     format_secret_list_str,
     raise_billing_or_mgmt,
+    validate_sku_type,
     validate_ticker_stack_combination,
 )
 
@@ -160,6 +161,9 @@ WHITELIST: Final[Optional[str]] = format_list_str(
     assert_valid_uuid_list(config.get("whitelist"))
 )
 LOG_LEVEL: Final[Optional[str]] = assert_valid_log_level(config.get("log_level"))
+DB_SKU_TYPE: Final[dict[str, str]] = validate_sku_type(
+    config.get("db_sku_type") or "prod"
+)
 
 
 # XOR
