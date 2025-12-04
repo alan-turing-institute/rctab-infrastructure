@@ -16,9 +16,9 @@ from rctab_infrastructure.constants import (
 )
 from rctab_infrastructure.utils import raise_if_none
 
-SERVER_VERSION: Final[dbforpostgresql.ServerVersion] = (
-    dbforpostgresql.ServerVersion.SERVER_VERSION_14
-)
+# Note that pulumi_azure_native doesn't always have the latest versions,
+# so we use a string instead of the enum option.
+SERVER_VERSION: Final[str] = "18"
 
 # pylint: disable=too-many-arguments
 
