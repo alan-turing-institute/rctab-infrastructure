@@ -205,7 +205,7 @@ def create_webapp(
         ),
     )
 
-    # Add the webapps outbound ips to the database whitelist
+    # Add the webapp's outbound IPs to the database whitelist
     web_app.possible_outbound_ip_addresses.apply(
         lambda x: [
             dbforpostgresql.FirewallRule(
