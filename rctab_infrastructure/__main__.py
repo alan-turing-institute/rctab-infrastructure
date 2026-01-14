@@ -7,8 +7,8 @@ from rctab_infrastructure.function_apps import set_up_function_apps
 from rctab_infrastructure.rctab_logging import create_action_group, set_up_logging
 
 # Create central logging and workspace
-workspace_id, logging_connection_string, logging_resouce_group = set_up_logging()
-action_group_id = create_action_group(logging_resouce_group.name)
+workspace_id, logging_connection_string, logging_resource_group = set_up_logging()
+action_group_id = create_action_group(logging_resource_group.name)
 
 usage_key, status_key, controller_key = [
     PrivateKey(
