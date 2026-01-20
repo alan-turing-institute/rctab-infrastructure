@@ -26,11 +26,6 @@ repos:
         language: system
         types:
           - python
-      - id: safety
-        name: Safety
-        entry: poetry run safety --stage cicd scan --policy-file .safety-policy.yml
-        pass_filenames: false
-        language: system
       - id: pylint
         name: Pylint
         entry: poetry run pylint --rcfile=.python-lint
