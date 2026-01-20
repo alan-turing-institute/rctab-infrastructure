@@ -112,7 +112,7 @@ def set_up_api(
             resource_group_name=api_resource_group.name,
             kind="Linux",
             reserved=True,
-            sku=web.SkuDescriptionArgs(tier="Premium", name="P1v2"),
+            sku=web.SkuDescriptionArgs(tier="Premium", name="P0v3"),
         ),
     )
 
