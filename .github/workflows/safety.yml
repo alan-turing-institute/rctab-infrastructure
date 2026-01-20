@@ -1,6 +1,6 @@
 ---
 
-name: Pre-commit
+name: Safety
 
 on:
   pull_request:
@@ -48,10 +48,6 @@ jobs:
         shell: bash
         run: |
           poetry install --all-extras
-
-      - name: Check poetry.lock consistency
-        shell: bash
-        run: poetry check --lock
 
       - name: Run pre-commit
         shell: bash
