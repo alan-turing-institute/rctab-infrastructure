@@ -412,3 +412,27 @@ Now that you know your RCTab web app's URL, you should add a redirect to the app
 
 Your redirect URI will be something like `https://rctab-ticker-stack.azurewebsites.net/getAToken`.
 See [add a redirect URI](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#add-a-redirect-uri).
+
+## Upgrades
+
+If an infrastructure change requires a redeployment of the database, you will need to manually back up and restore the data.
+The process will look something like this:
+
+1. Before running `pulumi up`, back up the database with `pg_dump` or similar.
+ 
+   ```shell
+    pg_dump --host=<db-host> --username=rctabadmin --dbname=<db-name> --file=rctab_backup.sql  --data-only --disable-triggers --exclude-database="azure_*"
+   ```
+   
+   We use `--exclude-databases` because Azure has some extra databases, used for internal purposes, which should not be included in the dump.
+   We use `--data-only` because the RCTab server runs Alembic migrations on startup to create the schema.
+2. Stop the function apps and web server.
+3. Run `pulumi up` to redeploy the infrastructure.
+4. Restore the database from the backup with `psql` or similar.
+
+    ```shell
+    psql --host=<db-host> --username=rctabadmin --dbname=RCTab --file=rctab_backup.sql
+    ```
+
+   Check the output for WARNINGs and ERRORs to ensure the restore was successful.
+5. Restart the function apps and web server.

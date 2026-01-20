@@ -1,17 +1,12 @@
 """Configuration file for the Sphinx documentation builder."""
 
-import os
 import pathlib
-import sys
 from importlib import metadata
 from unittest.mock import MagicMock
 
 import pulumi
-import sphinx_rtd_theme
 
 import rctab_infrastructure as ri
-
-# Patch Pulumi so that importing constants.py doesn't cause errors
 
 
 def require_or_get(*args, **kwargs):
@@ -24,6 +19,7 @@ def require_or_get(*args, **kwargs):
         "db_root_cert_path": str(pathlib.Path(__file__).absolute()),
         "whitelist": None,
         "expiry_email_freq": "1",
+        "db_sku_type": "test",
     }
     if args and args[0] in valid_values:
         return valid_values[args[0]]
@@ -43,6 +39,7 @@ def secret(*args, **kwargs):
     return pulumi.Output.secret(value)
 
 
+# Patch Pulumi so that importing constants.py doesn't cause errors
 pulumi.Config = MagicMock()
 pulumi.Config.return_value.require.side_effect = require_or_get
 pulumi.Config.return_value.get.side_effect = require_or_get
@@ -52,7 +49,7 @@ pulumi.Config.return_value.get_secret.side_effect = secret
 
 project = "rctab-infrastructure"
 author = "The Alan Turing Institute's Research Computing Team"
-copyright = f"2023, {author}"
+copyright = f"2026, {author}"
 
 version = metadata.version(ri.__package__)
 release = version
@@ -72,12 +69,10 @@ extensions = [
 # -- Options for HTML output
 
 html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_static_path = ["_static"]
 
 html_theme_options = {
     "logo_only": True,
-    "display_version": True,
 }
 
 html_logo = "RCTab-hex.png"
