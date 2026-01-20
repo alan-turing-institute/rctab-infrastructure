@@ -60,6 +60,7 @@ Attributes:
         empty string.
     WHITELIST (str): The subscription UUID whitelist. Defaults to an empty string.
     LOG_LEVEL (str): The log level. Defaults to an empty string.
+    DB_SKU_TYPE (dict): A dict containing the database SKU name and type.
     BILLING_ACCOUNT_ID (str): The billing account ID. REQUIRED.
     MGMT_GROUP (str): The management group. REQUIRED.
 """
@@ -131,7 +132,7 @@ DOCKER_CONTROLLER_IMAGE: Final[str] = (
 PRIMARY_IP: Final[Output[str]] = config.require_secret("primary_ip_address").apply(
     check_valid_ip_address
 )
-DB_ROOT_CERT_PATH: Final[str] = config.require("db_root_cert_path")
+DB_ROOT_CERT_PATH: Final[str] = assert_is_file(config.require("db_root_cert_path"))
 AD_SERVER_ADMIN: Final[Output[str]] = config.require_secret("ad_server_admin")
 AD_TENANT_ID: Final[Output[str]] = config.require_secret("ad_tenant_id")
 AD_API_CLIENT_ID: Final[Output[str]] = config.require_secret("ad_api_client_id")
@@ -177,5 +178,3 @@ MGMT_GROUP: Final[Output[str]] = config.get_secret("usage_mgmt_group") or Output
 BILLING_OR_MGMT: Final[Output[NameValuePairArgs]] = Output.all(
     billing=BILLING_ACCOUNT_ID, mgmt=MGMT_GROUP
 ).apply(raise_billing_or_mgmt)
-
-assert_is_file(DB_ROOT_CERT_PATH)
