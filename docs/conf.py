@@ -45,6 +45,18 @@ pulumi.Config.return_value.require.side_effect = require_or_get
 pulumi.Config.return_value.get.side_effect = require_or_get
 pulumi.Config.return_value.get_secret.side_effect = secret
 
+# Import all modules (after patching) to ensure autodoc works
+from rctab_infrastructure import (
+    api,
+    constants,
+    database,
+    function_apps,
+    keyvault,
+    rctab_logging,
+    utils,
+    webapp,
+)
+
 # -- General configuration
 
 project = "rctab-infrastructure"
