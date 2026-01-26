@@ -418,21 +418,24 @@ See [add a redirect URI](https://learn.microsoft.com/en-us/azure/active-director
 If an infrastructure change requires a redeployment of the database, you will need to manually back up and restore the data.
 The process will look something like this:
 
-1. Before running `pulumi up`, back up the database with `pg_dump` or similar.
+1. Before running `pulumi up`, back up the database with `pg_dump` or similar:
 
    ```shell
-    pg_dump --host=<db-host> --username=rctabadmin --dbname=<db-name> --file=rctab_backup.sql  --data-only --disable-triggers --exclude-database="azure_*"
+    pg_dump --host=<db-host> --username=rctabadmin --dbname=RCTab --file=rctab_backup --format d --data-only --jobs <parallel-tasks>
    ```
 
    We use `--exclude-databases` because Azure has some extra databases, used for internal purposes, which should not be included in the dump.
    We use `--data-only` because the RCTab server runs Alembic migrations on startup to create the schema.
-2. Stop the function apps and web server.
-3. Run `pulumi up` to redeploy the infrastructure.
-4. Restore the database from the backup with `psql` or similar.
+1. Stop the web server.
+1. Run `pulumi up` to redeploy the infrastructure.
+1. To create the database schema (tables, stored procedures, etc.), either:
+   1. Briefly restart the webserver, or
+   1. Check out the RCTab API repository and run `alembic upgrade head` from it.
+1. Restore the database from the backup with `psql`, `pg_restore` or similar:
 
-    ```shell
-    psql --host=<db-host> --username=rctabadmin --dbname=RCTab --file=rctab_backup.sql
-    ```
+   ```shell
+   pg_restore -d RCTab -p 5432 -U rctabadmin -h <db-host> --data-only --strict-names --verbose rctab_backup
+   ```
 
    Check the output for WARNINGs and ERRORs to ensure the restore was successful.
-5. Restart the function apps and web server.
+1. Restart the web server.
