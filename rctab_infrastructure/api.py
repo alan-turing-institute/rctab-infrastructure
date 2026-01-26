@@ -100,7 +100,6 @@ def set_up_api(
     """
     api_resource_group = resources.ResourceGroup(
         f"rctab-{IDENTIFIER}-",
-        resources.ResourceGroupArgs(location="UK South"),
     )
 
     # Dedicated plan (not based on usage)

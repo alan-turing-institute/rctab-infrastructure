@@ -231,9 +231,7 @@ def set_up_function_apps(
     """
     resource_group = resources.ResourceGroup(
         f"rctab-mngmnt-functions-{IDENTIFIER}-",
-        resources.ResourceGroupArgs(
-            location="UK South",
-        ),
+        resources.ResourceGroupArgs(),
     )
 
     account = storage.StorageAccount(
