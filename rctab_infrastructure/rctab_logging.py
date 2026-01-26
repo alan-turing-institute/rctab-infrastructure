@@ -26,7 +26,6 @@ def set_up_logging() -> Tuple[Output[str], Output[str], resources.ResourceGroup]
     """
     logging_resource_group = resources.ResourceGroup(
         f"rctab-central-logging-{IDENTIFIER}-",
-        location="UK South",
     )
 
     workspace = operationalinsights.Workspace(
