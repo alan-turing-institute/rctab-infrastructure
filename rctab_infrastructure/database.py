@@ -18,7 +18,7 @@ from rctab_infrastructure.utils import raise_if_none
 
 # Note that pulumi_azure_native doesn't always have the latest versions,
 # so we use a string instead of the enum option.
-SERVER_VERSION: Final[str] = "18"
+SERVER_VERSION: Final[str] = "17"
 
 # pylint: disable=too-many-arguments
 
