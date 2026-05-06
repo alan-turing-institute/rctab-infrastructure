@@ -169,4 +169,4 @@ BILLING_ACCOUNT_ID: Final[Output[str]] = config.require_secret("billing_account_
 
 BILLING_PROFILE_ID: Final[Optional[Output[str]]] = config.get_secret(
     "billing_profile_id"
-) or Output.secret("")
+)
