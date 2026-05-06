@@ -4,7 +4,6 @@ from pathlib import Path
 import pulumi
 from pulumi import Output
 from pulumi_azure_native import dbforpostgresql
-from pulumi_azure_native.web import NameValuePairArgs
 
 from rctab_infrastructure.utils import (
     assert_is_file,
@@ -17,7 +16,6 @@ from rctab_infrastructure.utils import (
     format_list_str,
     format_secret_list_str,
     is_valid_uuid,
-    raise_billing_or_mgmt,
     raise_if_none,
     validate_sku_type,
     validate_ticker_stack_combination,
@@ -126,34 +124,6 @@ class SyncTestCase(unittest.TestCase):
         self.assertEqual("192.168.123.132", check_valid_ip_address("192.168.123.132"))
         with self.assertRaises(ValueError):
             check_valid_ip_address("092.168.123.132")
-
-    def test_raise_billing_or_mgmt(self):
-        billing_kwargs = {"billing": "mybillinggroup", "mgmt": ""}
-        billing_return = NameValuePairArgs(
-            name="BILLING_ACCOUNT_ID", value="mybillinggroup"
-        )
-        mgmt_kwargs = {"billing": "", "mgmt": "mymgmtgroup"}
-        mgmt_return = NameValuePairArgs(name="MGMT_GROUP", value="mymgmtgroup")
-        self.assertEqual(billing_return, raise_billing_or_mgmt(billing_kwargs))
-        self.assertEqual(mgmt_return, raise_billing_or_mgmt(mgmt_kwargs))
-
-        bad_kwargs = {"billing": "", "mgmt": ""}
-        msg = (
-            "One of billing_account_id or usage_mgmt_group "
-            "should be set but neither is."
-        )
-        with self.assertRaises(ValueError) as cm:
-            raise_billing_or_mgmt(bad_kwargs)
-        self.assertEqual(msg, str(cm.exception))
-
-        bad_kwargs = {"billing": "mybillinggroup", "mgmt": "mymgmtgroup"}
-        msg = (
-            "Only one of billing_account_id or usage_mgmt_group "
-            "should be set but both are."
-        )
-        with self.assertRaises(ValueError) as cm:
-            raise_billing_or_mgmt(bad_kwargs)
-        self.assertEqual(msg, str(cm.exception))
 
     def test_assert_valid_int_list(self) -> None:
         self.assertIsNone(assert_valid_int_list(None))

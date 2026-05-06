@@ -62,13 +62,12 @@ Attributes:
     LOG_LEVEL (str): The log level. Defaults to an empty string.
     DB_SKU_TYPE (dict): A dict containing the database SKU name and type.
     BILLING_ACCOUNT_ID (str): The billing account ID. REQUIRED.
-    MGMT_GROUP (str): The management group. REQUIRED.
+    BILLING_PROFILE_ID (str): The billing profile ID. REQUIRED.
 """
 
 from typing import Final, Optional
 
 from pulumi import Config, Output, get_stack
-from pulumi_azure_native.web import NameValuePairArgs
 
 from rctab_infrastructure.utils import (
     assert_is_file,
@@ -80,7 +79,6 @@ from rctab_infrastructure.utils import (
     format_list_int,
     format_list_str,
     format_secret_list_str,
-    raise_billing_or_mgmt,
     validate_sku_type,
     validate_ticker_stack_combination,
 )
@@ -167,14 +165,8 @@ DB_SKU_TYPE: Final[dict[str, str]] = validate_sku_type(
 )
 
 
-# XOR
-BILLING_ACCOUNT_ID: Final[Output[str]] = config.get_secret(
-    "billing_account_id"
-) or Output.secret("")
-MGMT_GROUP: Final[Output[str]] = config.get_secret("usage_mgmt_group") or Output.secret(
-    ""
-)
+BILLING_ACCOUNT_ID: Final[Output[str]] = config.require_secret("billing_account_id")
 
-BILLING_OR_MGMT: Final[Output[NameValuePairArgs]] = Output.all(
-    billing=BILLING_ACCOUNT_ID, mgmt=MGMT_GROUP
-).apply(raise_billing_or_mgmt)
+BILLING_PROFILE_ID: Final[Optional[Output[str]]] = config.get_secret(
+    "billing_profile_id"
+) or Output.secret("")
