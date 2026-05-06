@@ -20,7 +20,7 @@ from rctab_infrastructure.constants import (
     AD_STATUS_CLIENT_SECRET,
     AD_TENANT_ID,
     AUTO_DEPLOY,
-    BILLING_OR_MGMT,
+    BILLING_ACCOUNT_ID,
     DOCKER_CONTROLLER_IMAGE,
     DOCKER_REGISTRY_SERVER_PASSWORD,
     DOCKER_REGISTRY_SERVER_URL,
@@ -269,7 +269,9 @@ def set_up_function_apps(
                 web.NameValuePairArgs(
                     name="PRIVATE_KEY", value=usage_key.private_key_openssh
                 ),
-                BILLING_OR_MGMT,
+                web.NameValuePairArgs(
+                    name="BILLING_ACCOUNT_ID", value=BILLING_ACCOUNT_ID
+                ),
             ),
             (
                 web.NameValuePairArgs(

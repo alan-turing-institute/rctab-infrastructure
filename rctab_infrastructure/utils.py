@@ -4,11 +4,10 @@ import ipaddress
 import re
 import uuid
 from pathlib import Path
-from typing import Any, Optional, TypeVar
+from typing import Optional, TypeVar
 
 from pulumi import Output
 from pulumi_azure_native import dbforpostgresql
-from pulumi_azure_native.web import NameValuePairArgs
 
 T = TypeVar("T")
 
@@ -163,35 +162,6 @@ def validate_sku_type(sku_type: str) -> dict[str, str]:
     if sku_type not in allowed_choices:
         raise ValueError(f"sku_type must be one of {list(allowed_choices.keys())}")
     return allowed_choices[sku_type]
-
-
-def raise_billing_or_mgmt(kwargs: dict[str, Any]) -> NameValuePairArgs:
-    """Raise if both billing and mgmt are set or neither are set.
-
-    Args:
-        kwargs: A dictionary that should have a key of "billing" or of "mgmt".
-
-    Raises:
-        ValueError: If both billing and mgmt are set or neither are set.
-
-    Returns:
-        A NameValuePairArgs object with either BILLING_ACCOUNT_ID or MGMT_GROUP set.
-    """
-    billing = kwargs["billing"]
-    mgmt = kwargs["mgmt"]
-    if billing and mgmt:
-        raise ValueError(
-            "Only one of billing_account_id or usage_mgmt_group "
-            "should be set but both are."
-        )
-    if (not billing) and (not mgmt):
-        raise ValueError(
-            "One of billing_account_id or usage_mgmt_group "
-            "should be set but neither is."
-        )
-    if billing:
-        return NameValuePairArgs(name="BILLING_ACCOUNT_ID", value=billing)
-    return NameValuePairArgs(name="MGMT_GROUP", value=mgmt)
 
 
 def is_valid_uuid(check_uuid: str) -> bool:
