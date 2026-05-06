@@ -21,6 +21,7 @@ from rctab_infrastructure.constants import (
     AD_TENANT_ID,
     AUTO_DEPLOY,
     BILLING_ACCOUNT_ID,
+    BILLING_PROFILE_ID,
     DOCKER_CONTROLLER_IMAGE,
     DOCKER_REGISTRY_SERVER_PASSWORD,
     DOCKER_REGISTRY_SERVER_URL,
@@ -262,35 +263,39 @@ def set_up_function_apps(
         ";EndpointSuffix=core.windows.net",
     )
 
+    if BILLING_PROFILE_ID is not None:
+        usage_args = (
+            web.NameValuePairArgs(
+                name="PRIVATE_KEY", value=usage_key.private_key_openssh
+            ),
+            web.NameValuePairArgs(name="BILLING_ACCOUNT_ID", value=BILLING_ACCOUNT_ID),
+        )
+    else:
+        usage_args = (
+            web.NameValuePairArgs(
+                name="PRIVATE_KEY", value=usage_key.private_key_openssh
+            ),
+            web.NameValuePairArgs(name="BILLING_ACCOUNT_ID", value=BILLING_ACCOUNT_ID),
+            web.NameValuePairArgs(name="BILLING_PROFILE_ID", value=BILLING_PROFILE_ID),
+        )
+
+    status_args = (
+        web.NameValuePairArgs(name="PRIVATE_KEY", value=status_key.private_key_openssh),
+        web.NameValuePairArgs(name="AZURE_TENANT_ID", value=AD_TENANT_ID),
+        web.NameValuePairArgs(name="AZURE_CLIENT_ID", value=AD_STATUS_CLIENT_ID),
+        web.NameValuePairArgs(
+            name="AZURE_CLIENT_SECRET", value=AD_STATUS_CLIENT_SECRET
+        ),
+    )
+    controller_args = (
+        web.NameValuePairArgs(
+            name="PRIVATE_KEY", value=controller_key.private_key_openssh
+        ),
+    )
+
     for image_name, app_settings, identity_type in zip(
         [DOCKER_USAGE_IMAGE, DOCKER_STATUS_IMAGE, DOCKER_CONTROLLER_IMAGE],
-        [
-            (
-                web.NameValuePairArgs(
-                    name="PRIVATE_KEY", value=usage_key.private_key_openssh
-                ),
-                web.NameValuePairArgs(
-                    name="BILLING_ACCOUNT_ID", value=BILLING_ACCOUNT_ID
-                ),
-            ),
-            (
-                web.NameValuePairArgs(
-                    name="PRIVATE_KEY", value=status_key.private_key_openssh
-                ),
-                web.NameValuePairArgs(name="AZURE_TENANT_ID", value=AD_TENANT_ID),
-                web.NameValuePairArgs(
-                    name="AZURE_CLIENT_ID", value=AD_STATUS_CLIENT_ID
-                ),
-                web.NameValuePairArgs(
-                    name="AZURE_CLIENT_SECRET", value=AD_STATUS_CLIENT_SECRET
-                ),
-            ),
-            (
-                web.NameValuePairArgs(
-                    name="PRIVATE_KEY", value=controller_key.private_key_openssh
-                ),
-            ),
-        ],
+        [usage_args, status_args, controller_args],
         [
             web.ManagedServiceIdentityType.SYSTEM_ASSIGNED,
             web.ManagedServiceIdentityType.NONE,
