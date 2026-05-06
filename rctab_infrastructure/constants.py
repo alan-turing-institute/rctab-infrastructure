@@ -62,7 +62,7 @@ Attributes:
     LOG_LEVEL (str): The log level. Defaults to an empty string.
     DB_SKU_TYPE (dict): A dict containing the database SKU name and type.
     BILLING_ACCOUNT_ID (str): The billing account ID. REQUIRED.
-    BILLING_PROFILE_ID (str): The billing profile ID. REQUIRED.
+    BILLING_PROFILE_ID (str): The billing profile ID.
 """
 
 from typing import Final, Optional

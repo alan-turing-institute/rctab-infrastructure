@@ -146,14 +146,14 @@ pulumi config set --secret ad_status_client_id '<ad-status-client-id>'
 pulumi config set --secret ad_status_client_secret '<ad-status-client-secret>'
 ```
 
-#### Usage Management Group
+#### Billing Account
 
 ```shell
-pulumi config set usage_mgmt_group '<mgmt-group-id>'
+pulumi config set billing_account_id '<billing-account-id>'
 ```
 
-The ID of the management group that the Usage function app will collect data for.
-The Usage function app should have enough permissions over this management group to be able to collect billing data.
+The ID of the billing account that the Usage function app will collect data for.
+The Usage function app should have enough permissions over this billing account to be able to collect billing data.
 
 ### Example Minimal Configuration
 
@@ -174,13 +174,21 @@ pulumi config set --secret ad_api_client_id '00000000-0000-0000-0000-00000000000
 pulumi config set --secret ad_api_client_secret 'the-api-secret'
 pulumi config set --secret ad_status_client_id '00000000-0000-0000-0000-000000000002'
 pulumi config set --secret ad_status_client_secret 'the-status-secret'
-pulumi config set --secret usage_mgmt_group 'my-management-group'
+pulumi config set --secret billing_account_id '00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000'
 ```
 
 ### Optional Config Variables
 
 The following config variables are not required for RCTab deployment.
 They come with default options specified, but you can overwrite these to provide your own values should you want to.
+
+#### Billing Profile ID
+
+```shell
+pulumi config set --secret billing_profile_id 'X123-YYSS-AB1-XXX'
+```
+
+To limit usage data to only one billing profile within a billing account, then specify the billing profile id.
 
 #### Notifiable Roles
 
@@ -378,21 +386,15 @@ However, there are some additional settings you need to configure to get RCTab w
 
 ### Give the Usage App a Role on Azure
 
-You will need to give the Usage app's [managed identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) the [Billing Reader Role](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/manage-billing-access#give-read-only-access-to-billing) over the management group you set as the [config variable](#usage-management-group).
+You will need to give the Usage app's [managed identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) the **Billing Account Reader Role** over the billing account or billing profile.
 
 #### In the Azure Portal
 
-1. Navigate to the [Azure portal](https://portal.azure.com/#home) and select the management group you selected as the [config variable](#usage-management-group).
+1. Navigate to the [Azure portal](https://portal.azure.com/#home). In the invoices page, select the required billing scope (account or profile)
 2. Select the `Access control (IAM)` blade.
 3. Select `Add` and then `Add role assignment`.
-4. Select `Billing Reader` from the `Role` dropdown.
-5. Select the Usage app's managed identity from the `Assign access to` dropdown.
-
-#### Using the Azure CLI
-
-```shell
-az role assignment create --assignee-object-id '<usage-app-managed-identity-object-id>' --role '<insert-role-name-here>' --scope '<management-group-id>'
-```
+4. Select `Billing Account Reader` role.
+5. Select the Usage app's managed identity from the `Users, Groups, or Apps` dropdown.
 
 ### Give the Controller App a Role on Azure
 
@@ -401,10 +403,6 @@ The Controller app needs a role assignment on Azure to be able to turn on or tur
 You can either use the `Owner` role or a custom role with `Microsoft.Authorization/*` and `Microsoft.Subscription/*` permissions.
 
 You can either assign the role to subscriptions individually or to a management group.
-This can be the same management group as the usage app or a child group of it, which
-is useful if you want to monitor spending on subscriptions but only automatically turn off some subscriptions.
-
-See above for instructions on role assignment via the Portal or CLI.
 
 ### Add the Web App's URL to the App Registration
 
