@@ -92,15 +92,16 @@ Additional IP addresses can be specified within the Azure portal.
 #### DB Root Cert Path
 
 ```shell
-pulumi config set --secret db_root_cert_path '<path/to/x509.crt.pem>'
+pulumi config set --secret db_root_cert_path '<path/to/combined.crt.pem>'
 ```
 
-RCTab uses an Azure Database for PostgreSQL Flexible Server, which requires a copy of a trusted Certificate Authority (CA) certificate file to connect securely.
-You will need to download the Microsoft RSA Root Certificate Authority 2017 certificate and convert it to PEM format:
+RCTab uses an Azure Database for PostgreSQL Flexible Server, which requires a copy of Microsoft's root certificates to connect securely.
+You should make a file called `combined.crt.pem` by concatenating the Microsoft RSA Root CA 2017 and DigiCert Global Root G2 files.
+The steps are, approximately:
 
-1. You can download it using the `crt` link on <https://www.microsoft.com/pkiops/docs/repository.html>.
-2. You should verify that the hash generated with the shasum command (e.g. `shasum -a 1 /path/to/your/downloaded/file.crt`) matches that shown on the webpage.
-3. You can convert the `.crt` file to a `.pem` with `openssl x509 -inform DER -outform PEM -in /path/to/your/downloaded/file.crt -out x509.crt.pem`.
+1. Download the CA and G2 files referenced in [these](https://learn.microsoft.com/en-us/azure/postgresql/security/security-tls-how-to-connect#install-trusted-root-certificate-authorities-cas) Microsoft docs.
+2. Convert the CA certificate, which will be in `.crt` format, to `.pem` with `openssl x509 -inform DER -outform PEM -in /path/to/microsoft_rsa_root_certificate.crt -out x509.crt.pem`.
+3. Concatenate both `.pem` certificates into one file with `cat x509.crt.pem /path/to/digicert_global_root_g2.pem > combined.crt.pem`.
 
 #### Active Directory Server Admin
 
