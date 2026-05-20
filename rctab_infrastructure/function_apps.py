@@ -263,21 +263,17 @@ def set_up_function_apps(
         ";EndpointSuffix=core.windows.net",
     )
 
-    if BILLING_PROFILE_ID is not None:
-        usage_args = (
+    usage_args = (
+        (
             web.NameValuePairArgs(
                 name="PRIVATE_KEY", value=usage_key.private_key_openssh
             ),
             web.NameValuePairArgs(name="BILLING_ACCOUNT_ID", value=BILLING_ACCOUNT_ID),
         )
-    else:
-        usage_args = (
-            web.NameValuePairArgs(
-                name="PRIVATE_KEY", value=usage_key.private_key_openssh
-            ),
-            web.NameValuePairArgs(name="BILLING_ACCOUNT_ID", value=BILLING_ACCOUNT_ID),
-            web.NameValuePairArgs(name="BILLING_PROFILE_ID", value=BILLING_PROFILE_ID),
-        )
+        + (web.NameValuePairArgs(name="BILLING_PROFILE_ID", value=BILLING_PROFILE_ID),)
+        if BILLING_PROFILE_ID is not None
+        else ()
+    )
 
     status_args = (
         web.NameValuePairArgs(name="PRIVATE_KEY", value=status_key.private_key_openssh),
