@@ -200,6 +200,8 @@ def create_webapp(
                 app_settings=app_settings,
                 always_on=True,
                 linux_fx_version=f"DOCKER|{DOCKER_API_IMAGE}",
+                min_tls_version=web.SupportedTlsVersions.SUPPORTED_TLS_VERSIONS_1_2,
+                scm_min_tls_version=web.SupportedTlsVersions.SUPPORTED_TLS_VERSIONS_1_2,
             ),
             https_only=True,
         ),
