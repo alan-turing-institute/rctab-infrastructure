@@ -190,6 +190,8 @@ def create_function_app(
                 + app_settings,
                 always_on=True,
                 linux_fx_version=f"DOCKER|{image_name}",
+                min_tls_version=web.SupportedTlsVersions.SUPPORTED_TLS_VERSIONS_1_2,
+                scm_min_tls_version=web.SupportedTlsVersions.SUPPORTED_TLS_VERSIONS_1_2,
             ),
             https_only=True,
         ),
