@@ -1,4 +1,9 @@
 {
+  "extensions": {
+    "front-matter": {
+      "enabled": true
+    }
+  },
   "plugins": {
     "MD013": {
       "enabled": false
