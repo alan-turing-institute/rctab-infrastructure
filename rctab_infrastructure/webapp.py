@@ -101,6 +101,11 @@ def create_webapp(
             value=app_insights_connection_string,
         ),
         web.NameValuePairArgs(name="ORGANISATION", value=ORGANISATION),
+        # Sets AppRoleName in Application Insights, so that log records can be
+        # told apart from the function apps' in the shared workspace. The
+        # function apps do not need this: the Azure Functions worker sets their
+        # role name from the site name.
+        web.NameValuePairArgs(name="OTEL_SERVICE_NAME", value="rctab-api"),
     ]
 
     fully_qualified_domain_name = database_server.fully_qualified_domain_name.apply(
