@@ -6,8 +6,8 @@ from rctab_infrastructure.api import set_up_api
 from rctab_infrastructure.function_apps import set_up_function_apps
 from rctab_infrastructure.rctab_logging import create_action_group, set_up_logging
 
-# Create central logging and workspace
-workspace_id, logging_connection_string, logging_resource_group = set_up_logging()
+# Create the shared logging workspace
+workspace_id, logging_resource_group = set_up_logging()
 action_group_id = create_action_group(logging_resource_group.name)
 
 usage_key, status_key, controller_key = [
@@ -26,7 +26,6 @@ usage_key, status_key, controller_key = [
 # Create API webapp
 app_plan_id, app_hostname = set_up_api(
     workspace_id,
-    logging_connection_string,
     usage_key,
     status_key,
     controller_key,
@@ -36,7 +35,6 @@ app_plan_id, app_hostname = set_up_api(
 # Create function apps
 set_up_function_apps(
     workspace_id,
-    logging_connection_string,
     app_plan_id,
     app_hostname,
     usage_key,

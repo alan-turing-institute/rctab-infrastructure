@@ -79,7 +79,6 @@ def create_availability_alert_rule(
 
 def set_up_api(
     workspace_id: Output[str],
-    logging_connection_string: Output[str],
     usage_key: PrivateKey,
     status_key: PrivateKey,
     controller_key: PrivateKey,
@@ -88,8 +87,7 @@ def set_up_api(
     """Create resources for the RCTab API.
 
     Args:
-        workspace_id: The id of the application insights workspace.
-        logging_connection_string: The connection string for the application insights.
+        workspace_id: The id of the log analytics workspace.
         usage_key: The private key for the usage function app.
         status_key: The private key for the status function app.
         controller_key: The private key for the controller function app.
@@ -174,7 +172,6 @@ def set_up_api(
         app_plan_id=app_plan.id,
         database_server=db_server,
         database=database,
-        logging_connection_string=logging_connection_string,
         database_user_password=rctab_app_password,
         app_insights_connection_string=app_insights.connection_string,
         usage_key=usage_key,
