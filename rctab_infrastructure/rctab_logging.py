@@ -4,7 +4,6 @@ from typing import Optional, Sequence, Tuple
 
 from pulumi import Output
 from pulumi_azure_native import operationalinsights, resources
-from pulumi_azure_native.applicationinsights import Component
 from pulumi_azure_native.monitor import (
     ActionGroup,
     ActionGroupInitArgs,
@@ -14,15 +13,14 @@ from pulumi_azure_native.monitor import (
 from rctab_infrastructure.constants import ADMIN_EMAIL_RECIPIENTS, IDENTIFIER
 
 
-def set_up_logging() -> Tuple[Output[str], Output[str], resources.ResourceGroup]:
+def set_up_logging() -> Tuple[Output[str], resources.ResourceGroup]:
     """Set up the centralised logging resources for RCTab.
 
-    Includes a workspace and an app insights instance, all housed in a single
-    resource group.
+    Creates the Log Analytics workspace that every app's Application Insights
+    instance writes to, housed in its own resource group.
 
     Returns:
-        The id of the log analytics workspace to use, the centralised logging
-        connection string and the resource group.
+        The id of the log analytics workspace to use and the resource group.
     """
     logging_resource_group = resources.ResourceGroup(
         f"rctab-central-logging-{IDENTIFIER}-",
@@ -37,17 +35,7 @@ def set_up_logging() -> Tuple[Output[str], Output[str], resources.ResourceGroup]
         ),
     )
 
-    logging_app_insights = Component(
-        f"rctab-logging-{IDENTIFIER}-",
-        resource_group_name=logging_resource_group.name,
-        location=logging_resource_group.location,
-        application_type="functionapp",
-        kind="web",
-        request_source="rest",
-        workspace_resource_id=workspace.id,
-    )
-
-    return workspace.id, logging_app_insights.connection_string, logging_resource_group
+    return workspace.id, logging_resource_group
 
 
 def create_action_group(logging_resource_group_name: Output[str]) -> Output[str]:

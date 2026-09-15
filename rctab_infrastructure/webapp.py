@@ -43,7 +43,6 @@ def create_webapp(
     database: dbforpostgresql.Database,
     database_user_password: random.RandomPassword,
     app_insights_connection_string: Output[str],
-    logging_connection_string: Output[str],
     usage_key: PrivateKey,
     status_key: PrivateKey,
     controller_key: PrivateKey,
@@ -58,7 +57,6 @@ def create_webapp(
         database: The database to connect the webapp to.
         database_user_password: The password for the database user.
         app_insights_connection_string: The connection string for application insights.
-        logging_connection_string: The connection string for central logging.
         usage_key: The private key for the usage function.
         status_key: The private key for the status function.
         controller_key: The private key for the controller function.
@@ -92,10 +90,6 @@ def create_webapp(
             value=DOCKER_REGISTRY_SERVER_PASSWORD,
         ),
         web.NameValuePairArgs(name="DOCKER_ENABLE_CI", value=AUTO_DEPLOY),
-        web.NameValuePairArgs(
-            name="CENTRAL_LOGGING_CONNECTION_STRING",
-            value=logging_connection_string,
-        ),
         web.NameValuePairArgs(
             name="APPLICATIONINSIGHTS_CONNECTION_STRING",
             value=app_insights_connection_string,
