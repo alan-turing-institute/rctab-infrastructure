@@ -96,7 +96,6 @@ def create_function_app(
     app_hostname: Output[str],
     image_name: str,
     workspace_id: Output[str],
-    logging_connection_string: Output[str],
     app_settings: Tuple[
         Union[web.NameValuePairArgs, Output[web.NameValuePairArgs]], ...
     ],
@@ -112,7 +111,6 @@ def create_function_app(
         app_hostname: The hostname of the app service plan to use.
         image_name: The name of the Docker image to run.
         workspace_id: The id of the app insights instance to use.
-        logging_connection_string: The connection string for application insights.
         app_settings: The app settings to use.
         storage_connection_string: The connection string for the storage account to use.
         identity_type: The type of identity to use.
@@ -167,10 +165,6 @@ def create_function_app(
                     web.NameValuePairArgs(name="WEBSITES_PORT", value="80"),
                     web.NameValuePairArgs(name="DOCKER_ENABLE_CI", value=AUTO_DEPLOY),
                     web.NameValuePairArgs(
-                        name="CENTRAL_LOGGING_CONNECTION_STRING",
-                        value=logging_connection_string,
-                    ),
-                    web.NameValuePairArgs(
                         name="APPLICATIONINSIGHTS_CONNECTION_STRING",
                         value=app_insights.connection_string,
                     ),
@@ -209,7 +203,6 @@ def create_function_app(
 
 def set_up_function_apps(
     workspace_id: Output[str],
-    logging_connection_string: Output[str],
     app_plan_id: Output[str],
     app_hostname: Output[str],
     usage_key: PrivateKey,
@@ -221,7 +214,6 @@ def set_up_function_apps(
 
     Args:
         workspace_id: The id of the log analytics workspace to use.
-        logging_connection_string: The connection string for the centralised logging.
         app_plan_id: The id of the app service plan to use.
         app_hostname: The hostname of the web app.
         usage_key: The private key to use for the usage function app.
@@ -306,7 +298,6 @@ def set_up_function_apps(
             app_hostname,
             image_name,
             workspace_id,
-            logging_connection_string,
             app_settings,
             connection_string,
             identity_type,
