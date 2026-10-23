@@ -299,14 +299,14 @@ To deploy RCTab from your own images you will need to set the Docker registry UR
 If you want to deviate from our image naming scheme, you will also need to set the image name variables and the tag.
 
 ```shell
-pulumi config set docker_api_image 'myorg/my-api-image'
-pulumi config set docker_usage_image 'myorg/my-usage-image'
-pulumi config set docker_status_image 'myorg/my-status-image'
-pulumi config set docker_api_image 'myorg/my-api-image'
-pulumi config set docker_usage_image 'myorg/my-usage-image'
-pulumi config set docker_status_image 'myorg/my-status-image'
-pulumi config set docker_controller_image 'myorg/my-controller-image'
-pulumi config set rctab_tag '2.3'
+# Set a tag, if it applies to all of them.
+pulumi config set rctab_tag '1.latest'
+
+# Or set one or more individually.
+pulumi config set docker_api_image 'myorg/my-api-image:1.latest'
+pulumi config set docker_usage_image 'myorg/my-usage-image:1.prerelease'
+pulumi config set docker_status_image 'myorg/my-status-image:1.8.4'
+pulumi config set docker_controller_image 'myorg/my-controller-image:1.8.4'
 ```
 
 To save time with debugging and redeployment, it is advisable to should check that the images and tag work with the Docker CLI before running `pulumi up`.

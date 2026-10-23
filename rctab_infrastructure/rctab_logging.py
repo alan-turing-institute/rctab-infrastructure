@@ -8,7 +8,7 @@ from pulumi_azure_native.applicationinsights import Component
 from pulumi_azure_native.monitor import (
     ActionGroup,
     ActionGroupInitArgs,
-    EmailReceiverArgs,
+    MicrosoftCommonEmailReceiverArgs,
 )
 
 from rctab_infrastructure.constants import ADMIN_EMAIL_RECIPIENTS, IDENTIFIER
@@ -61,12 +61,12 @@ def create_action_group(logging_resource_group_name: Output[str]) -> Output[str]
     Returns:
         The id of the action group.
     """
-    email_receivers: Optional[Output[Sequence[EmailReceiverArgs]]]
+    email_receivers: Optional[Output[Sequence[MicrosoftCommonEmailReceiverArgs]]]
 
     if ADMIN_EMAIL_RECIPIENTS is not None:
         email_receivers = ADMIN_EMAIL_RECIPIENTS.apply(
             lambda x: [
-                EmailReceiverArgs(
+                MicrosoftCommonEmailReceiverArgs(
                     email_address=split_x.strip(),
                     name=split_x.split("@")[0].strip(),
                     use_common_alert_schema=False,
