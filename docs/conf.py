@@ -1,5 +1,6 @@
 """Configuration file for the Sphinx documentation builder."""
 
+import asyncio
 import pathlib
 from importlib import metadata
 from unittest.mock import MagicMock
@@ -38,6 +39,9 @@ def secret(*args, **kwargs):
 
     return pulumi.Output.secret(value)
 
+
+# pulumi.Output needs an event loop, which Python 3.14 no longer creates implicitly
+asyncio.set_event_loop(asyncio.new_event_loop())
 
 # Patch Pulumi so that importing constants.py doesn't cause errors
 pulumi.Config = MagicMock()
