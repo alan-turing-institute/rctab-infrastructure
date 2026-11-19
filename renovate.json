@@ -1,6 +1,37 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  "extends": ["github>alan-turing-institute/rctab//renovate/default"],
+  "customManagers": [
+    {
+      "description": "The Read the Docs Python version, which Renovate doesn't find by itself. depName python puts it in the preset's python group with setup-python",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.readthedocs\\.ya?ml$/"],
+      "matchStrings": ["\\n\\s+python:\\s*\"(?<currentValue>\\d+\\.\\d+)\""],
+      "depNameTemplate": "python",
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "The Azure Database for PostgreSQL server version",
+      "customType": "regex",
+      "managerFilePatterns": ["/^rctab_infrastructure/database\\.py$/"],
+      "matchStrings": ["SERVER_VERSION: Final\\[str\\] = \"(?<currentValue>\\d+)\""],
+      "depNameTemplate": "postgres",
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Postgres releases come from Docker Hub, but Azure supports new major versions later, so check Azure's supported versions before approving. Upgrade rctab-api's test Postgres to match",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "groupName": "postgres",
+      "automerge": false,
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Pulumi packages in one PR: the SDK and providers are released often and are tested together",
+      "matchPackageNames": ["pulumi", "pulumi-*"],
+      "groupName": "pulumi"
+    }
   ]
 }
