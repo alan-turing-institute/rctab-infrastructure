@@ -26,9 +26,8 @@ safety = "^3.7.0"
 pre-commit = "^4.5.0"
 pydocstyle = "^6.3.0"
 pymarkdownlnt = "^0.9.33"
-pylint-absolute-imports = "^1.1.0"
 
-[tool.poetry.extras]
+[project.optional-dependencies]
 docs = ["sphinx-rtd-theme", "sphinxcontrib-napoleon", "myst-parser", "sphinx"]
 
 [tool.isort]
