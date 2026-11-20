@@ -12,10 +12,9 @@ pulumi = "^3.272.0"
 pulumi-random = "^4.13.1"
 pulumi-postgresql = "^3.8.0"
 pulumi-tls = "^5.2.3"
-sphinx = {version = "^7.0.0", optional = true}
-sphinx-rtd-theme = {version = "^3.0.2", optional = true}
-sphinxcontrib-napoleon = {version = "^0.7", optional = true}
-myst-parser = {version = "^2.0.0", optional = true}
+sphinx = {version = "^9.1.1", optional = true}
+sphinx-rtd-theme = {version = "^3.1.0", optional = true}
+myst-parser = {version = "^5.2.0", optional = true}
 
 [tool.poetry.group.dev.dependencies]
 pyright = "^1.1.407"
@@ -27,7 +26,7 @@ pydocstyle = "^6.3.0"
 pymarkdownlnt = "^0.9.33"
 
 [project.optional-dependencies]
-docs = ["sphinx-rtd-theme", "sphinxcontrib-napoleon", "myst-parser", "sphinx"]
+docs = ["sphinx", "sphinx-rtd-theme", "myst-parser"]
 
 [tool.isort]
 profile = "black"
